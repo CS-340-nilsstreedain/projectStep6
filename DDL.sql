@@ -8,7 +8,7 @@ SET AUTOCOMMIT = 0;
 DROP TABLE IF EXISTS Genres;
 CREATE TABLE Genres (
     genreID INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(45) NOT NULL,
     description TEXT
 );
 
@@ -16,10 +16,10 @@ CREATE TABLE Genres (
 DROP TABLE IF EXISTS Customers;
 CREATE TABLE Customers (
     customerID INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    phone VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255) UNIQUE,
-    address VARCHAR(255),
+    name VARCHAR(45) NOT NULL,
+    phone VARCHAR(45) NOT NULL UNIQUE,
+    email VARCHAR(45) UNIQUE,
+    address VARCHAR(100),
     favoriteGenre INT,
     FOREIGN KEY (favoriteGenre)
         REFERENCES Genres(genreID)
@@ -29,9 +29,9 @@ CREATE TABLE Customers (
 DROP TABLE IF EXISTS Books;
 CREATE TABLE Books (
     bookID INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    price DECIMAL(10 , 2 ) UNSIGNED NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    author VARCHAR(45) NOT NULL,
+    price DECIMAL(6, 2) UNSIGNED NOT NULL,
     stock INT UNSIGNED DEFAULT 0 NOT NULL
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE Orders (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
     customerID INT,
     date DATETIME NOT NULL,
-    total DECIMAL(10 , 2 ) UNSIGNED NOT NULL,
+    total DECIMAL(10, 2) UNSIGNED NOT NULL,
     FOREIGN KEY (customerID)
         REFERENCES Customers(customerID)
         ON DELETE CASCADE
@@ -65,7 +65,7 @@ CREATE TABLE OrderBooks (
     orderID INT NOT NULL,
     bookID INT NOT NULL,
     quantity INT UNSIGNED DEFAULT 1 NOT NULL,
-    price DECIMAL(10 , 2 ) UNSIGNED NOT NULL,
+    price DECIMAL(6, 2) UNSIGNED NOT NULL,
     PRIMARY KEY (orderID , bookID),
     FOREIGN KEY (orderID)
         REFERENCES Orders(orderID)
