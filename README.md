@@ -1,87 +1,106 @@
-# Project Step 2 (Normalized Schema, DDL, Sample Data, & Revisions to Existing Deliverables)
+# Project Step 3 Draft (HTML Interface, DML, & Revisions to Existing Deliverables)
 ## Objective
-In this step, you will apply the normalization process to your current design, detail your schema, and develop the SQL to both define your tables AND insert your sample data.
+In this step, we will begin working on the front-end portion of our project. Namely, we will create two things:
+1. The HTML front-end for your web app that will provide an interface for a user to perform CRUD operations as described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide).
+2. The DML SQL statements that your application will (eventually) use to perform the user-requested CRUD operations.
 
-After you apply feedback and normalize your database, make sure that each piece of documentation is consistent with one and other: there should be no conflicts in design. The overall design should be clear to the reader.
+To get started with this Step, we suggest making a list of all CS340 Project functionalities in terms that are relevant to your database. For example "Add entries to each table" could be "Add a new BSG person", "Add a new Certification", and so on.
+
+Once you have determined all the operations you should implement, draw a design prototype of your HTML page(s). For example, an "Add new BSG person" page would contain fields for first name, last name, a dropdown for Homeworld, and a field for age. Also, remember that you need not implement all your functionalities in different pages. For example, we could have a delete button for each entry on the page listing all bsg_people.
+
+ 
+
+## The Draft Phase
+Please see [Draft Phase](https://canvas.oregonstate.edu/courses/1914742/pages/draft-phase?wrap=1) for more information about this phase of the Project Step, including how to submit drafts.
 
 ## Deliverable(s)
-You should submit a **ZIP** archive containing **2 THINGS**:
-1. A **PDF** file containing all the items from Step 1, plus a schema diagram which should follow the (updated) database outline and ER diagram, and the example data used in your database.
+You should submit a **ZIP** archive containing 4 THINGS:
+1. A **PDF** file containing information from previous steps. This file should be updated to reflect any changes made to the project. Furthermore, it should be consistent in its details of the overall design.
 2. An **SQL file containing your Data Definition Queries** (DDL.sql) and your **sample data INSERT statements**
+3. An **SQL file containing your Data Manipulation Queries** (DML.sql). These are the queries that your website uses to perform the user-requested CRUD operations. Thus SELECT, INSERT, UPDATE and DELETE queries to provide the functionalities described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide).
+4. A **URL** to an index.html listing all your HTML pages. Put this URL on the top of your PDF file as well as on your discussion post.
 
-Your .ZIP file should be posted to the Ed Discussion (please follow the instructions under "How do I turn in this assignment" below)
+The zip file should be named **projectgroupX_stepX_DRAFT/FINAL.zip** (e.g., ProjectGroup42_Step3_DRAFT.zip or ProjectGroup42_Step3_FINAL.zip).
 
-Both members' names and your Group number should be included in the files as well as a comment on the post.
+Your .ZIP file should be posted to the Ed Discussion (please follow the instructions under "How do I turn in this assignment" below). Both members' names and your Group number should be included in the files as well as a comment on the post.
 
-It is expected that you apply all the concepts you have learned until now.
-
-The zip file should be named **projectgroupX_stepX_DRAFT/FINAL.zip** (e.g., *ProjectGroup42_Step2_DRAFT.zip* or *ProjectGroup42_Step2_FINAL.zip*).
+**Ensure consistency**: as your project changes, be sure to update each of your deliverables as necessary to ensure an overall consistency in your design. If your design is not clear because it is inconsistent, then you may lose points.
 
 ### Deliverable 1: PDF File
-#### Fixes based on Feedback from Step 1:
+**The following sections should appear in the same order as they are listed here.**
+
+#### Fixes based on Feedback from Previous Steps:
 Itemize the issues raised by your peers and the TAs/instructors in Step 1. This means including a description of each issue as well as how you fixed it. If you chose not to address an issue raised by a peer or the TA/Instructor, you must indicate why you think the design should not change. In other words, you must reason why the perceived issue isn't really an issue. If you make any additional changes based on your own design decisions (including issues that you found and fixed on your own), they should also be listed here.
 
 If you haven't received any feedback, then state this here and do not include the preceding details.
 
-#### Project Outline and Database Outline - Updated Version:
-Provide the updated version of your submission for Project Step 1. It should be consistent with any changes listed in section a.
+#### Project Outline and Database Outline, ERD, Schema, & Sample Data - Updated Versions:
+This section should contain the updated outline, ERD, Schema and sample data based on the feedback from the grader and your peers as well as any design decisions that you decided to make on your own. It's required that you apply the various design tools you learned until now (like Normalization steps, ON DELETE CASCADE, etc.) to review and fix your ERD and Schema. Your Final Project submission will be graded based on your application of these concepts.
 
-#### Entity-Relationship Diagram - Updated Version:
-Provide the updated ERD. It should be consistent with any changes in sections a and b.
+### Deliverable 2: Data Definition Queries (DDL.sql) - Updated Version
+Your DDL.sql file should be updated to reflect any changes in your design since your last submission.
 
-Remember: you do not need to include all attributes in the ERD. However, you should include the primary key. Other attributes will be detailed in the schema.
+### Deliverable 3: Data Manipulation Queries (DML.sql)
+You must include a DML.sql file. This file will contain the queries that your website will (eventually) use to query the back-end database based on users' interaction with the front-end. This file will include the set of SELECT, INSERT, UPDATE and DELETE queries that your final project will use to implement the required operations as specified in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide) (in addition to any other functionality you plan on implementing).
 
-#### Schema:
-Apply normalization to your design as described in [Exploration - Normalization Steps](https://canvas.oregonstate.edu/courses/1914742/pages/exploration-normalization-steps). Start by creating a sample report (perhaps in Excel or Google Sheets) with some data and look for redundancies and anomalies. Once your design meets 2NF, look for any remaining transitive dependencies and decide whether you will further normalize to 3NF. Note that we do not need to remove all transitive dependencies, but we should remove transitive dependencies that will likely lead to data integrity issues. ***Once your schema is normalized, update your overview, outline, and ERD for consistency.***
+Many of your queries will depend on dynamic inputs. For example, INSERTing a new person into bsg_people requires input from a front-end form (i.e., the fname, lname, homeword, and age of the person the user wants to INSERT into the table). Dynamic inputs also describe those portions of your queries that need to change dynamically, perhaps because they are based on the state of the front-end/back-end. You should clearly indicate which parts of your queries are dynamic inputs. This can be done though SQL comments and special characters.
 
-Your Final Version (and the Final Versions of all future steps) will be graded based on the overall consistency of your design. This means that all pieces--from the Project Outline to your final implementation--should be consistent. You may use an automated schema generator such as the diagram visualizer in PhPMyAdmin, MySQL Workbench, or draw the schema by hand and upload a scanned legible copy. You should follow the notation covered in class. Diagrams should be legible: they should be large enough to read and clean enough to properly interpret. If a diagram is ambiguous because it is not readable, then you may lose points in your Final Draft.
-
-#### Example Data:
-All the example from each table in your schema should be pasted into your report. Clearly indicate which rows go with which table.
-
-Approximately 3-5 rows of data per table are enough data to demonstrate how the table works (e.g., foreign keys demonstrate 1:M relationships and intersection tables show M:M relationships in action). You are free to use made-up data, but it should be polite values that reasonably represent the database in action. You can also get data from other sources, such as a sample reports from some website, but please anonymize the data so that personal identifiers are not disclosed.
-
-### Deliverable 2: Data Definition Queries
-You must include a DDL.SQL file. It should be import-able on the database server that is used to host your CS340 database. If the .SQL file cannot be imported or does not create tables as your Schema describes, then you will lose valuable feedback from your reviewers. In later steps, you will lose points if your DDL.SQL file is not import-able or is not consistent with your design.
-
-#### DDL.SQL Requirements:
-- The SQL should exactly match the schema of the report
-- All the example data shown in your report needs to be included in your .SQL file (insert the data into the respective table using INSERT statements)
-- Each table should have the correct primary key
-- Foreign keys should be correctly defined
-- Where appropriate, you should use CASCADE (as described in [Exploration - MySQL Cascade](https://canvas.oregonstate.edu/courses/1914742/pages/exploration-mysql-cascade)) to handle changes in primary key values
-
-#### Tips:
-- You are welcome to disable commits and foreign key checks at the beginning of your file (see [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-bulk-data-loading.html)). However, you should turn them back on at the end to minimize import errors.
-  - For example:
+For example, [bsg_sample_data_manipulation_queries.sql](https://canvas.oregonstate.edu/courses/1914742/files/98097733?wrap=1) Download bsg_sample_data_manipulation_queries.sql documents its dynamic inputs as follows,
 ```sql
-SET FOREIGN_KEY_CHECKS = 0;
-SET AUTOCOMMIT = 0;
+-- Query for add a new character functionality with colon : character being used to 
+-- denote the variables that will have data from the backend programming language
 
-... [your SQL goes here]
-SET FOREIGN_KEY_CHECKS=1;
-COMMIT;
+INSERT INTO bsg_people (fname, lname, homeworld, age)
+VALUES (:fnameInput, :lnameInput, :homeworld_id_from_dropdown_Input, :ageInput);
 ```
-- It is recommended that you use `DROP TABLE IF EXISTS` prior to any create table statements or else use the `CREATE OR REPLACE TABLE` statement as described in [Activity 1](https://canvas.oregonstate.edu/courses/1914742/pages/activity-1-creating-a-customer-object-table) to minimize import errors. 
+Here, `:fnameInput` denotes the variable that will have the value of "First Name" in it when the NodeJS code processes it.
 
-**Example DDL File**: see [bsg_db.sql](https://canvas.oregonstate.edu/courses/1914742/files/98097705/download?download_frd=1) Download bsg_db.sql which was generated using the mysqldump tool as described in [Activity 2 - Backing up and Restoring your Database](https://canvas.oregonstate.edu/courses/1914742/pages/activity-2-backing-up-and-restoring-your-database)
+All queries should be syntactically correct (apart from the dynamic inputs). This means that all your queries should work if the variable names are replaced with actual data. As always, your DML should be consistent with all other deliverables.
 
-## Frequently Asked Questions
-### This is too much work! I can't design the entire database and sample data in such a short amount of time!
-You don't need to implement the entire thing! You just need to get started. For Drafts, you get points for turning in things as they are. If you get stuck and can't implement it all, you can still turn in something for Review and get points for submission and discussion.
+**Note**: do not include any of the JavaScript, PHP, or any other programming language's code used to process the data. This file is purely for your DML queries.
 
-### How should I create my Schema diagram?
-Refer to the video in [Activity 1 - Access and Use the CS340 Database](https://canvas.oregonstate.edu/courses/1914742/assignments/%24CANVAS_OBJECT_REFERENCE%24/assignments/g5e8e55d71fba7ef7cc757bfcedfc8520) for how to use PhPMyAdmin. You can also use MySQL Workbench as described in [Exploration - Creating ER Diagram MySQL Workbench](https://canvas.oregonstate.edu/courses/1914742/pages/exploration-creating-er-diagram-mysql-workbench). There are other diagraming tools available (e.g. Visio) and a picture/scan of a neatly hand drawn diagram is also acceptable.
+### Deliverable 4: URL to your index.html page
+You should **submit a URL of an index page containing links to all the other static pages** in your website (e.g. https://web.engr.oregonstate.edu/~yourONID/cs340/index.html) with a short but informative title for each page like "Browse existing ships", "Add new ship", "Manage certifications for each character". **You need to include this URL on the first page of your PDF AND on your discussion post.**
 
-### How do I create my DDL script?
-You can use MySQL Workbench to forward engineer a schema and then import it into the CS340 Class Database hosted on the flip servers as described in [Exploration - Creating ER Diagram MySQL Workbench](https://canvas.oregonstate.edu/courses/1914742/pages/exploration-creating-er-diagram-mysql-workbench). After you import it, you can use the Export tool in PhPMyadmin. You can also create the SQL by hand as was done in [Activity 1](https://canvas.oregonstate.edu/courses/1914742/pages/activity-1-creating-a-customer-object-table).
+These are the static HTML pages which the user will use to interact with your Project Website. Your HTML pages should be the front-end implementation for all the functionalities described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide). These can be plain HTML files or, if you wish, you can build them using a templating engine (e.g., handlebars). The only requirement is that each page is browsable and has the CRUD forms you plan to implement.
 
-### Can I use sample data from another source (e.g. from XYZ website)?
-Yes, as long as you a) honor academic integrity by citing your source and b) limit the amount of data included. This is supposed to be sample data (only 3-5 rows are required) so you shouldn't include more than 10 rows or so. Also keep in mind that you will have to paste all the data into your PDF and too much data will make your document difficult to read.
+At this step, you are only required to provide your project website (front-end). You are welcome to work ahead and implement the back-end in this step, **but it is not required**. The front-end should include forms, client-side validation (if you decide to use any), and any additional content (images, etc,.) that you want to display on your website.
 
-Also note that, even though you can save time by importing one table's data, you will still need to manually create rows for other tables. For instance, assume a grocery store database had the following entities:
-- PRODUCTS (**PROD_NUM**, DESCRIPTION, QTY, UNIT_OF_MEASURE, PRICE)
-- AISLES (**AISLE_NUM**, DESCRIPTION)
-- PRODUCT_AISLES (**PROD_NUM**, **AISLE_NUM**)
+You can deploy your website on the flip server by placing all the necessary files inside the **public_html** directory.
 
-You could easily find rows of sample data from a grocery store to insert into the PRODUCTS tables. However, you should still expect to create the sample data for the AISLES and PRODUCT_AISLES tables manually because it is unlikely you will find sample data that exactly matches your schema design.
+**Sample**: for a sample website using the BSG database, we would turn in a URL to an index.html page listing all the other pages in the website along with a short description of what functionality is available in what page. Here is an example of what those files would look like Download [an example of what those files would look like](https://canvas.oregonstate.edu/courses/1914742/files/98097727?wrap=1).
+
+## Frequently Asked Questions:
+### I am using handlebars/some other templating engine for developing my project website. What should I submit?
+Just make sure the handlebar pages are browse-able with the right template syntax inserted.
+
+For example, if I were to submit only the handlebar file for bsg_people, I would make available the people.handlebars file along with the URL I submit and an index.html file listing all the pages and a short description of what they are.
+
+### How many web pages should my project have?
+There is neither a minimum nor a maximum number of HTML pages that your project should have, but it is desirable that your project is spread across different pages rather than a single one. You may combine or separate functionalities from the CS340 Project Guide across pages as you deem necessary.
+
+### Do I need to show sample data on the HTML pages?
+While not necessary, it would be helpful. You may want to use some of the sample data from your previous project step. A webpage should definitely indicate with the correct section headings whether a section lists rows from a table or is a form for adding new rows to the tables or provides some other functionality.
+
+### What do you mean by "front-end implementation for a functionality" on a static HTML page?
+For example, consider the Add people form for the bsg_people entity. The HTML page would contain a form with fields for all the columns (but not the ID since it's auto-incremented) and also a submit button. Of course, you would also have labels telling the user what each of these textboxes or dropdowns are for. You would also include a header on the page specifying that this form is for adding a new person. You could also work ahead and make sure that the fields are displayed in a neat order, probably using a table since there will be points for styling in your Final Project submission.
+
+### So these HTML pages will interact with the database?
+Well, they will actually interact with your back-end programming language or framework like Flask/NodeJS which then interacts with the database. We will get there soon enough.
+
+### Should this particular field in my form be a textbox/textarea/drop-down/some new UX style fancy element?
+This is your choice. Though the user should easily be able to understand how to use it (if it's too difficult you could also provide tooltips about how to use it). Your reviewers/graders might disagree and you should be able to justify the usage of one over the other.
+
+### How "done" does the design of the HTML pages need to be for this step?
+The page should provide all the necessary HTML elements for implementing a specific functionality. If it does not, then it is not yet "done." For example, the BSG People page would provide all the things necessary for implementing the Add New row to the bsg_people.
+
+### My website front-end uses AJAX to display rows and the website can't function without it AND/OR I have already written the server-side code to make my website work. Do I need to remove/hide these functionalities?
+You do not have to remove/hide any "extra" functionality or features for this submission that makes your front end work. You also do not need to scale down your project or disconnect the server-side code if it's already working. It's perfectly fine to implement a website with more functionality than is required for this Step.
+
+All these "extra things" will simply not be considered by your reviewers and the graders when the Final version is graded. For example, the form's fields, the presence of a Submit button, and the presence of relevant headers and labels on your form to make sure that anyone looking at the form understands what it is for and how to interact with the form, will be the only things reviewed and graded.
+
+### Why do we have to work on this HTML thing? Isn't this course about databases? Why not just let me write SQL and get points for it?
+Databases do not exist in isolation. Unless all your users are comfortable writing SQL for tasks like inserting and browsing data, you definitely need to provide them with an interface to interact with this database. This is why we require an "HTML thing." Forms facilitate a way for providing data to put in your INSERT and UPDATE statements. The data that you get using SELECT statements will be displayed using tables in your HTML pages. And there probably will be a button somewhere which allows a user to DELETE a record in your table.
+
+### But I already did/am learning database interaction using a web technology like NodeJS in CS290!
+CS290 offers an introduction to database interaction using a web technology, while this course gives you an opportunity to create a full-fledged database-drive website.
