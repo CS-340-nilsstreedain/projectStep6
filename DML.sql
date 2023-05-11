@@ -14,23 +14,21 @@ SELECT * FROM Books;
 SELECT * FROM Orders;
 
 -- 5. Get all books of a specific genre
-SELECT Books.*
-FROM Books
+SELECT Books.* FROM Books
 JOIN BookGenres ON Books.bookID = BookGenres.bookID
 WHERE BookGenres.genreID = :genreID;
 
 -- 6. Get customer details by ID
-SELECT * FROM Customers WHERE customerID = :customerID;
+SELECT * FROM Customers
+WHERE customerID = :customerID;
 
 -- 7. Get order details by order ID
-SELECT Orders.*, Customers.*
-FROM Orders
+SELECT Orders.*, Customers.* FROM Orders
 JOIN Customers ON Orders.customerID = Customers.customerID
 WHERE Orders.orderID = :orderID;
 
 -- 8. Get all books in an order
-SELECT Books.*, OrderBooks.quantity, OrderBooks.price
-FROM OrderBooks
+SELECT Books.*, OrderBooks.quantity, OrderBooks.price FROM OrderBooks
 JOIN Books ON OrderBooks.bookID = Books.bookID
 WHERE OrderBooks.orderID = :orderID;
 
@@ -82,20 +80,24 @@ WHERE orderID = :orderID;
 
 -- DELETE Queries
 -- 1. Delete a genre
-DELETE FROM Genres WHERE genreID = :genreID;
+DELETE FROM Genres
+WHERE genreID = :genreID;
 
 -- 2. Delete a customer
-DELETE FROM Customers WHERE customerID = :customerID;
+DELETE FROM Customers
+WHERE customerID = :customerID;
 
 -- 3. Delete a book
-DELETE FROM Books WHERE bookID = :bookID;
+DELETE FROM Books
+WHERE bookID = :bookID;
 
 -- 4. Delete a book's genre
 DELETE FROM BookGenres
 WHERE bookID = :bookID AND genreID = :genreID;
 
 -- 5. Delete an order
-DELETE FROM Orders WHERE orderID = :orderID;
+DELETE FROM Orders
+WHERE orderID = :orderID;
 
 -- 6. Delete a book from an order
 DELETE FROM OrderBooks
