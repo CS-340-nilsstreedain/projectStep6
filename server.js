@@ -2,8 +2,8 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 
 const PORT = process.env.PORT || 6784;
-const navItems = [
-	{ title: 'Home', url: '/', active: true },
+const pages = [
+	{ title: 'Home', url: '/',},
 	{ title: 'Customers', url: '/customers' },
 	{ title: 'Orders', url: '/orders' },
 	{ title: 'Books', url: '/books' },
@@ -27,14 +27,15 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    res.render('index', {
-        curr: 'Home',
-        navItems
+// Create routes for each page
+pages.forEach(({ title, url }) => {
+    app.get(url, (req, res) => {
+        res.render(title.toLowerCase(), {
+            curr: title,
+            pages
+        });
     });
 });
-
-// Add other routes for Customers, Orders, Books, and Genres
 
 app.listen(PORT, function (err) {
 	if(err) throw err;

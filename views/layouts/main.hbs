@@ -8,7 +8,7 @@
 	<body>
 		<nav>
 			<div id="navSpace"></div>
-			{{#each navItems}}
+			{{#each pages}}
 				<a class="page {{#isEqual title ../curr}}curr{{/isEqual}}" href="{{url}}">{{title}}</a>
 			{{/each}}
 		</nav>
