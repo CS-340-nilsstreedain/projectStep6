@@ -1,0 +1,87 @@
+:root {
+	--accent: #737239;
+	--lGray: #f4f4f4;
+	--mGray: #ebebeb;
+	--dGray: #878787;
+	--pad: 30px;
+}
+
+@font-face {
+	font-family: typeface;
+	src: url(typeface.woff2) format(woff2),
+		url(typeface.woff) format(woff);
+}
+
+body {
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: var(--pad);
+	margin: calc(3 * var(--pad)) 5% 0;
+	background-color: var(--lGray);
+	font-family: typeface;
+}
+
+nav {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	left: 0;
+	height: 57px;
+	background-color: var(--lGray);
+	border-bottom: 3px solid var(--mGray);
+	overflow: visible;
+}
+
+#navSpace {
+	width: calc(6 * var(--pad));
+}
+
+nav div, nav a {
+	float: left;
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	width: calc(5 * var(--pad));
+}
+
+.page, #util p {
+	text-decoration: none;
+	color: var(--dGray);
+}
+
+.curr {
+	font-weight: bold;
+	color: var(--accent);
+	border-bottom: 3px solid var(--accent);
+}
+
+.curr, .page:hover {
+	background-color: var(--mGray);
+}
+
+#util {
+	width: 250px;
+}
+
+#util h1 {
+	margin: 0;
+}
+
+#util p {
+	margin: 0;
+	font-size: 1.17em;
+}
+
+main {
+	padding: var(--pad);
+	padding-top: 0;
+	width: 100%;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px 0 var(--mGray);
+	background-color: #fff;
+}
+
+main h2 {
+	padding-top: 30px;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Bookstore Back Office</title>
+		<link rel="preload" href="/typeface.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="stylesheet" href="/main.css">
+	</head>
+	<body>
+		<nav>
+			<div id="navSpace"></div>
+			{{#each navItems}}
+				<a class="page {{#isEqual title ../curr}}curr{{/isEqual}}" href="{{url}}">{{title}}</a>
+			{{/each}}
+		</nav>
+		<div id="util">
+			<h1>{{curr}}</h1>
+			<p>Bookstore Back Office</p>
+		</div>
+		<main>
+			{{{body}}}
+		</main>
+	</body>
+</html>
