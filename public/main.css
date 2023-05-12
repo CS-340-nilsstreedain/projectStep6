@@ -14,9 +14,9 @@
 
 body {
 	display: grid;
-	grid-template-columns: auto auto auto auto;
+	grid-template-columns: auto 1fr;
 	grid-gap: var(--pad);
-	margin: calc(3 * var(--pad)) 5% 0;
+	margin: calc(3 * var(--pad)) calc(3 * var(--pad)) 0;
 	background-color: var(--lGray);
 	font-family: typeface;
 }
@@ -33,7 +33,7 @@ nav {
 }
 
 #navSpace {
-	width: calc(6 * var(--pad));
+	width: calc(var(--pad) * 3);
 }
 
 nav div, nav a {
@@ -61,7 +61,7 @@ nav div, nav a {
 }
 
 #util {
-	width: 250px;
+	width: calc(9 * var(--pad));
 }
 
 #util h1 {
@@ -105,7 +105,8 @@ main h2 {
 }
 
 table {
-	width: 1000px;
+	margin: 0;
+	width: 100%;
 	border-collapse: collapse;
 	overflow: hidden;
 	box-shadow: 0 4px 8px var(--mGray);
