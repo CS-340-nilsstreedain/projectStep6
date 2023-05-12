@@ -1,6 +1,6 @@
 :root {
 	--accent: #737239;
-	--lGray: #f4f4f4;
+	--lGray: #fafafa;
 	--mGray: #ebebeb;
 	--dGray: #878787;
 	--pad: 30px;
@@ -73,6 +73,24 @@ nav div, nav a {
 	font-size: 1.17em;
 }
 
+#util button {
+	background-color: var(--mGray);
+        color: var(--dGray);
+	font-weight: bold;
+	width: 100%;
+	height: calc(var(--pad) * 1.5);
+	margin: calc(var(--pad) / 2) 0 0;
+	border: none;
+	border-radius: 5px;
+	font-size: medium;
+	font-family: typeface;
+}
+
+#util button:hover {
+	background-color: var(--lGray);
+	border: 2px solid var(--mGray);
+}
+
 main {
 	padding: var(--pad);
 	padding-top: 0;
@@ -90,39 +108,24 @@ table {
 	width: 1000px;
 	border-collapse: collapse;
 	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 8px var(--mGray);
 	border-radius: 10px;
+}
+
+thead th{
+        background-color: var(--accent);
+        color: #fff;
 }
 
 th, td {
 	padding: 15px;
-	background-color: rgba(255,255,255,0.2);
+	background-color: var(--lGray);
 }
 
 th {
 	text-align: left;
 }
 
-thead th {
-	background-color: var(--accent);
-	color: #fff;
-}
-
-tbody tr &:hover {
-	background-color: rgba(255,255,255,0.3);
-}
-
 tbody td {
 	position: relative;
-}
-
-tbody td	&:hover &:before {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: -9999px;
-	bottom: -9999px;
-	background-color: rgba(255,255,255,0.2);
-	z-index: -1;
 }

@@ -15,6 +15,11 @@
 		<div id="util">
 			<h1>{{curr}}</h1>
 			<p>Bookstore Back Office</p>
+			{{#isNotEqual curr "Home"}}
+			<button id="create">Create New {{curr}}</button>
+			<button id="edit">Edit {{curr}}</button>
+			<button id="delete">Delete {{curr}}</button>
+			{{/isNotEqual}}
 		</div>
 		{{{body}}}
 	</body>

@@ -6,7 +6,9 @@ const pages = [
 	{ title: 'Home', url: '/',},
 	{ title: 'Customers', url: '/customers' },
 	{ title: 'Orders', url: '/orders' },
+        { title: 'OrderBooks', url: '/orderbooks' },
 	{ title: 'Books', url: '/books' },
+        { title: 'BookGenres', url: '/bookgenres' },
 	{ title: 'Genres', url: '/genres' }
 ];
 
@@ -17,6 +19,10 @@ const app = express();
 const hbs = exphbs.create({});
 hbs.handlebars.registerHelper('isEqual', function (a, b, options) {
 	return a === b ? options.fn(this) : options.inverse(this);
+});
+
+hbs.handlebars.registerHelper('isNotEqual', function (a, b, options) {
+        return a !== b ? options.fn(this) : options.inverse(this);
 });
 
 // Configure express-handlebars
