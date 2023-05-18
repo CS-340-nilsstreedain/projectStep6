@@ -15,7 +15,6 @@ const pages = [
 			{name: 'phone', description: 'Phone Number', type: 'input'},
 			{name: 'email', description: 'Email Address', type: 'input'},
 			{name: 'address', description: 'Home Address', type: 'input'},
-			{name: 'genre', description: 'Favorite Genre', type: 'input'},
 			{name: 'genre', description: 'Favorite Genre', type: 'select'}
 		]
 	},
