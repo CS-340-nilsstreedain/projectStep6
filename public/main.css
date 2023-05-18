@@ -74,21 +74,66 @@ nav div, nav a {
 }
 
 #util button {
-	background-color: var(--mGray);
-        color: var(--dGray);
-	font-weight: bold;
 	width: 100%;
 	height: calc(var(--pad) * 1.5);
 	margin: calc(var(--pad) / 2) 0 0;
-	border: none;
+	border: 2px solid transparent;
 	border-radius: 5px;
+	background-color: var(--mGray);
+	color: var(--dGray);
 	font-size: medium;
+	font-weight: bold;
 	font-family: typeface;
 }
 
 #util button:hover {
 	background-color: var(--lGray);
-	border: 2px solid var(--mGray);
+	border-color: var(--mGray);
+}
+
+
+
+#util dialog {
+	width: 50%;
+	border: none;
+	border-radius: 10px;
+	
+	& form {
+		& legend {
+			font-size: large;
+			font-weight: bold;
+			color: var(--accent);
+		}
+		
+		& fieldset {
+			border: 2px solid var(--mGray);
+			border-radius: 5px;
+			
+			& input, select {
+				width: 100%;
+				padding: 5px;
+				border-radius: 3px;
+				margin-bottom: 15px;
+				border: 1px solid var(--mGray);
+				background-color: var(--lGray);
+				box-sizing: border-box;
+				appearance: none;
+			}
+			
+			& input:last-child, select:last-child {
+				margin-bottom: 0px;
+			}
+		}
+		
+		.formButtons {
+			display: flex;
+			
+			& button {
+				flex: 1;
+				margin: 3px;
+			}
+		}
+	}
 }
 
 main {
