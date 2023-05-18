@@ -76,7 +76,7 @@ hbs.handlebars.registerHelper('isEqual', function (a, b, options) {
 });
 
 hbs.handlebars.registerHelper('isNotEqual', function (a, b, options) {
-        return a !== b ? options.fn(this) : options.inverse(this);
+	return a !== b ? options.fn(this) : options.inverse(this);
 });
 
 // Configure express-handlebars
