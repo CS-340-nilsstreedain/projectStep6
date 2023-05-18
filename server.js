@@ -3,13 +3,13 @@ const exphbs = require('express-handlebars');
 
 const PORT = process.env.PORT || 6784;
 const pages = [
-	{ title: 'Home', url: '/',},
-	{ title: 'Customers', url: '/customers' },
-	{ title: 'Orders', url: '/orders' },
-        { title: 'OrderBooks', url: '/orderbooks' },
-	{ title: 'Books', url: '/books' },
-        { title: 'BookGenres', url: '/bookgenres' },
-	{ title: 'Genres', url: '/genres' }
+	{title: 'Home', url: '/'},
+	{title: 'Customers', url: '/customers'},
+	{title: 'Orders', url: '/orders'},
+	{title: 'OrderBooks', url: '/orderbooks'},
+	{title: 'Books', url: '/books'},
+	{title: 'BookGenres', url: '/bookgenres'},
+	{title: 'Genres', url: '/genres'}
 ];
 
 // Create an Express app
@@ -34,10 +34,10 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Create routes for each page
-pages.forEach(({ title, url }) => {
+pages.forEach(({title, url}) => {
     app.get(url, (req, res) => {
         res.render(title.toLowerCase(), {
-            curr: title,
+            title: title,
             pages
         });
     });

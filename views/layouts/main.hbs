@@ -10,17 +10,17 @@
 		<nav>
 			<div id="navSpace"></div>
 			{{#each pages}}
-				<a class="page {{#isEqual title ../curr}}curr{{/isEqual}}" href="{{url}}">{{title}}</a>
+				<a class="page {{#isEqual title ../title}}curr{{/isEqual}}" href="{{url}}">{{title}}</a>
 			{{/each}}
 		</nav>
 		<div id="util">
-			<h1>{{curr}}</h1>
+			<h1>{{title}}</h1>
 			<p>Bookstore Back Office</p>
-			{{#isNotEqual curr "Home"}}
-			<button id="create">Create New {{curr}}</button>
+			{{#isNotEqual title "Home"}}
+			<button id="create">Create New {{title}}</button>
 			<dialog id="createForm">
 				<form method="dialog">
-					<legend>Create New {{curr}}</legend>
+					<legend>Create New {{title}}</legend>
 					<fieldset>
 						<label for="name">Full Name:</label>
 						<input type="text" id="name" name="name">
@@ -43,10 +43,10 @@
 					<button value="default">Submit</button>
 				</form>
 			</dialog>
-			<button id="edit">Edit {{curr}}</button>
+			<button id="edit">Edit {{title}}</button>
 			<dialog id="editForm">
 				<form method="dialog">
-					<legend>Edit {{curr}}</legend>
+					<legend>Edit {{title}}</legend>
 					<fieldset>
 						<label for="name">Full Name:</label>
 						<input type="text" id="name" name="name" value="John Doe">
@@ -69,11 +69,11 @@
 					<button value="default">Submit</button>
 				</form>
 			</dialog>
-			<button id="delete">Delete {{curr}}</button>
+			<button id="delete">Delete {{title}}</button>
 			<dialog id="deleteForm">
 				<form method="dialog">
-					<legend>Delete {{curr}}</legend>
-					<p>Are you sure you want to delete the selected {{curr}}?</p>
+					<legend>Delete {{title}}</legend>
+					<p>Are you sure you want to delete the selected {{title}}?</p>
 					<div class="formButtons">
 						<button value="cancel" formmethod="dialog">No</button>
 						<button value="default">Yes</button>
