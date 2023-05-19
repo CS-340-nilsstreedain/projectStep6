@@ -66,6 +66,7 @@ nav div, nav a {
 
 #util h1 {
 	margin: 0;
+	color: var(--accent);
 }
 
 #util p {
@@ -147,6 +148,7 @@ main {
 
 main h2 {
 	padding-top: 30px;
+	color: var(--accent);
 }
 
 table {
