@@ -1,24 +1,93 @@
-		<table>
-			<thead>
-				<tr>
-					<th><input type="checkbox" id="select-all"></th>
-                {{#each data}}
-                    {{#if @first}}
-                        {{#each this}}
-                            <th>{{@key}}</th>
-                        {{/each}}
-                    {{/if}}
-                {{/each}}
-				</tr>
-			</thead>
-			<tbody>
-				{{#each data}}
-					<tr>
-						<td><input type="checkbox" class="select-row"></td>
-						{{#each this}}
-						<td>{{this}}</td>
-						{{/each}}
-					</tr>
+<div id="util">
+	<h1>{{title}}</h1>
+	<p>Bookstore Back Office</p>
+	<button id="create">Create New {{title}}</button>
+	<dialog id="createForm">
+		<form method="dialog">
+			<legend>Create New {{title}}</legend>
+			<fieldset>
+				{{#each columns}}
+					<label for="{{name}}">{{description}}:</label>
+					{{#isEqual type "input"}}
+						<input type="text" id="{{name}}" name="{{name}}">
+					{{/isEqual}}
+					{{#isEqual type "select"}}
+						<select id="{{name}}" name="{{name}}">
+							<option value="1">{{name}} 1</option>
+							<option value="2">{{name}} 2</option>
+							<option value="3">{{name}} 3</option>
+							<option value="4">{{name}} 4</option>
+							<option value="5">{{name}} 5</option>
+						</select>
+					{{/isEqual}}
 				{{/each}}
-			</tbody>
-		</table>
+			</fieldset>
+			<div class="formButtons">
+				<button value="cancel" formmethod="dialog">Cancel</button>
+				<button value="default">Submit</button>
+			</div>
+		</form>
+	</dialog>
+	<button id="edit">Edit {{title}}</button>
+	<dialog id="editForm">
+		<form method="dialog">
+			<legend>Edit {{title}}</legend>
+			<fieldset>
+				{{#each columns}}
+					<label for="{{name}}">{{description}}:</label>
+					{{#isEqual type "input"}}
+						<input type="text" id="{{name}}" name="{{name}}">
+					{{/isEqual}}
+					{{#isEqual type "select"}}
+						<select id="{{name}}" name="{{name}}">
+							<option value="1">{{name}} 1</option>
+							<option value="2">{{name}} 2</option>
+							<option value="3">{{name}} 3</option>
+							<option value="4">{{name}} 4</option>
+							<option value="5">{{name}} 5</option>
+						</select>
+					{{/isEqual}}
+				{{/each}}
+			</fieldset>
+			<div class="formButtons">
+				<button value="cancel" formmethod="dialog">Cancel</button>
+				<button value="default">Submit</button>
+			</div>
+		</form>
+	</dialog>
+	<button id="delete">Delete {{title}}</button>
+	<dialog id="deleteForm">
+		<form method="dialog">
+			<legend>Delete {{title}}</legend>
+			<p>Are you sure you want to delete the selected {{title}}?</p>
+			<div class="formButtons">
+				<button value="cancel" formmethod="dialog">No</button>
+				<button value="default">Yes</button>
+			</div>
+		</form>
+	</dialog>
+</div>
+<table>
+	<thead>
+		<tr>
+			<th><input type="checkbox" id="select-all"></th>
+		{{#each data}}
+			{{#if @first}}
+				{{#each this}}
+					<th>{{@key}}</th>
+				{{/each}}
+			{{/if}}
+		{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr>
+				<td><input type="checkbox" class="select-row"></td>
+				{{#each this}}
+				<td>{{this}}</td>
+				{{/each}}
+			</tr>
+		{{/each}}
+	</tbody>
+</table>
