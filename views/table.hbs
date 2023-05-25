@@ -1,0 +1,24 @@
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="select-all"></th>
+                {{#each data}}
+                    {{#if @first}}
+                        {{#each this}}
+                            <th>{{@key}}</th>
+                        {{/each}}
+                    {{/if}}
+                {{/each}}
+				</tr>
+			</thead>
+			<tbody>
+				{{#each data}}
+					<tr>
+						<td><input type="checkbox" class="select-row"></td>
+						{{#each this}}
+						<td>{{this}}</td>
+						{{/each}}
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
