@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+var db = require('./db-connector')
 
 const PORT = process.env.PORT || 6784;
 const pages = [
