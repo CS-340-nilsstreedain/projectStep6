@@ -6,25 +6,18 @@
 		<form method="dialog">
 			<legend>Create New {{title}}</legend>
 			<fieldset>
-				{{#each columns}}
-					<label for="{{name}}">{{description}}:</label>
-					{{#isEqual type "input"}}
-						<input type="text" id="{{name}}" name="{{name}}">
-					{{/isEqual}}
-					{{#isEqual type "select"}}
-						<select id="{{name}}" name="{{name}}">
-							<option value="1">{{name}} 1</option>
-							<option value="2">{{name}} 2</option>
-							<option value="3">{{name}} 3</option>
-							<option value="4">{{name}} 4</option>
-							<option value="5">{{name}} 5</option>
-						</select>
-					{{/isEqual}}
+				{{#each data}}
+					{{#if @first}}
+						{{#each this}}
+							<label for="{{@key}}">{{@key}}:</label>
+							<input type="text" id="{{@key}}" name="{{@key}}">
+						{{/each}}
+					{{/if}}
 				{{/each}}
 			</fieldset>
 			<div class="formButtons">
-				<button value="cancel" formmethod="dialog">Cancel</button>
-				<button value="default">Submit</button>
+				<button type="button" id="createClose">Close</button>
+				<button type="submit">Submit</button>
 			</div>
 		</form>
 	</dialog>
@@ -33,25 +26,18 @@
 		<form method="dialog">
 			<legend>Edit {{title}}</legend>
 			<fieldset>
-				{{#each columns}}
-					<label for="{{name}}">{{description}}:</label>
-					{{#isEqual type "input"}}
-						<input type="text" id="{{name}}" name="{{name}}">
-					{{/isEqual}}
-					{{#isEqual type "select"}}
-						<select id="{{name}}" name="{{name}}">
-							<option value="1">{{name}} 1</option>
-							<option value="2">{{name}} 2</option>
-							<option value="3">{{name}} 3</option>
-							<option value="4">{{name}} 4</option>
-							<option value="5">{{name}} 5</option>
-						</select>
-					{{/isEqual}}
+				{{#each data}}
+					{{#if @first}}
+						{{#each this}}
+							<label for="{{@key}}">{{@key}}:</label>
+							<input type="text" id="{{@key}}" name="{{@key}}">
+						{{/each}}
+					{{/if}}
 				{{/each}}
 			</fieldset>
 			<div class="formButtons">
-				<button value="cancel" formmethod="dialog">Cancel</button>
-				<button value="default">Submit</button>
+				<button type="button" id="editClose">Close</button>
+				<button type="submit">Submit</button>
 			</div>
 		</form>
 	</dialog>
@@ -61,8 +47,8 @@
 			<legend>Delete {{title}}</legend>
 			<p>Are you sure you want to delete the selected {{title}}?</p>
 			<div class="formButtons">
-				<button value="cancel" formmethod="dialog">No</button>
-				<button value="default">Yes</button>
+				<button type="button" id="deleteClose">No</button>
+				<button type="submit">Yes</button>
 			</div>
 		</form>
 	</dialog>

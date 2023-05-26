@@ -59,8 +59,15 @@ pages.forEach(({title, url}) => {
 	
 	// CREATE
 	app.post(url + '/create', (req, res) => {
-		const sql = 'INSERT INTO ' + title + ' SET ?';
-		db.pool.query(sql, req.body, (error, results) => {
+		// Construct keys and values arrays
+		const keys = Object.keys(req.body);
+		const values = Object.values(req.body);
+
+		// Build SQL statement
+		const sql = `INSERT INTO ${title} (${keys.join(',')}) VALUES (${keys.map(() => '?').join(',')})`;
+
+		// Execute the query
+		db.pool.query(sql, values, (error, results) => {
 			if (error) throw error;
 			res.redirect(url);
 		});
