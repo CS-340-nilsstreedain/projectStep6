@@ -1,36 +1,28 @@
-const createButton = document.getElementById('create');
-const editButton = document.getElementById('edit');
-const deleteButton = document.getElementById('delete');
-
-const createCloseButton = document.getElementById('createClose');
-const editCloseButton = document.getElementById('editClose');
-const deleteCloseButton = document.getElementById('deleteClose');
-
 const createDialog = document.getElementById('createForm');
 const editDialog = document.getElementById('editForm');
 const deleteDialog = document.getElementById('deleteForm');
 
-createButton.addEventListener('click', () => {
+document.getElementById('create').addEventListener('click', () => {
 	createDialog.showModal();
 });
 
-createCloseButton.addEventListener('click', () => {
+document.getElementById('createClose').addEventListener('click', () => {
 	createDialog.close();
 });
 
-editButton.addEventListener('click', () => {
+document.getElementById('edit').addEventListener('click', () => {
 	editDialog.showModal();
 });
 
-editCloseButton.addEventListener('click', () => {
+document.getElementById('editClose').addEventListener('click', () => {
 	editDialog.close();
 });
 
-deleteButton.addEventListener('click', () => {
+document.getElementById('delete').addEventListener('click', () => {
 	deleteDialog.showModal();
 });
 
-deleteCloseButton.addEventListener('click', () => {
+document.getElementById('deleteClose').addEventListener('click', () => {
 	deleteDialog.close();
 });
 
@@ -81,13 +73,16 @@ createForm.addEventListener('submit', event => {
 //	.then(response => window.location.reload())
 //	.catch(error => console.error('Error:', error));
 //});
-//
-//deleteForm.addEventListener('submit', event => {
-//	event.preventDefault();
-//	const id = /* The ID of the row to delete. This will need to come from somewhere. */;
-//	fetch(window.location.pathname + '/delete/' + id, {
-//		method: 'POST'
-//	})
-//	.then(response => window.location.reload())
-//	.catch(error => console.error('Error:', error));
-//});
+
+deleteForm.addEventListener('click', () => {
+	const selectedRows = document.querySelectorAll('input.select-row:checked');
+	const ids = Array.from(selectedRows).map(row => row.parentElement.parentElement.getAttribute('data-id'));
+
+	ids.forEach(id => {
+		fetch(window.location.pathname + '/delete/' + id, {
+			method: 'POST'
+		})
+		.then(response => window.location.reload())
+		.catch(error => console.error('Error:', error));
+	});
+});

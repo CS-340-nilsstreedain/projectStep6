@@ -68,10 +68,10 @@
 	</thead>
 	<tbody>
 		{{#each data}}
-			<tr>
+			<tr data-id="{{entryKeys this ../title}}">
 				<td><input type="checkbox" class="select-row"></td>
 				{{#each this}}
-				<td>{{this}}</td>
+					<td>{{this}}</td>
 				{{/each}}
 			</tr>
 		{{/each}}
