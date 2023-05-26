@@ -92,6 +92,12 @@ UPDATE Orders
 SET customerID = :customerID, date = :date, total = :total
 WHERE orderID = :orderID;
 
+-- Update the quantity and price of a book in an order
+-- Dynamic inputs: (:orderID, :bookID, :quantity, :price)
+UPDATE OrderBooks
+SET quantity = :quantity, price = :price
+WHERE orderID = :orderID AND bookID = :bookID;
+
 -- DELETE Queries
 -- 1. Delete a genre
 -- Dynamic inputs: (:genreID)

@@ -96,12 +96,30 @@ pages.forEach(({title, url}) => {
 	});
 
 	// UPDATE
-	app.post(url + '/update/:id', (req, res) => {
-		const sql = 'UPDATE ' + title + ' SET ? WHERE id = ?';
-		db.pool.query(sql, [req.body, req.params.id], (error, results) => {
-			if (error) throw error;
-			res.redirect(url);
-		});
+	app.post(url + '/update', (req, res) => {
+		const keys = Object.keys(req.body);
+		const values = Object.values(req.body);
+		
+		var sql = '';
+		var tableIDs = IDs[title];
+		if (tableIDs.length == 1) {
+			console.log(keys[0]);
+			const sqlSet = keys.slice(1).map(key => `${key} = '${req.body[key]}'`).join(', ');
+			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ?`;
+			
+			db.pool.query(sql, values, (error, results) => {
+				if (error) throw error;
+				res.redirect(url);
+			});
+		} else {
+			const sqlSet = keys.slice(2).map(key => `${key} = '${req.body[key]}'`).join(', ');
+			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ? AND ${tableIDs[1]} = ?`;
+
+			db.pool.query(sql, values, (error, results) => {
+				if (error) throw error;
+				res.redirect(url);
+			});
+		}
 	});
 
 	// DELETE

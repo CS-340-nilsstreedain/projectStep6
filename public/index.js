@@ -42,8 +42,8 @@ for(var i = 0; i < boxes.length; i++) {
 }
 
 const createForm = createDialog.querySelector('form');
-//const editForm = editDialog.querySelector('form');
-//const deleteForm = deleteDialog.querySelector('form');
+const editForm = editDialog.querySelector('form');
+const deleteForm = deleteDialog.querySelector('form');
 
 createForm.addEventListener('submit', event => {
 	event.preventDefault();
@@ -63,18 +63,26 @@ createForm.addEventListener('submit', event => {
 	.catch(error => console.error('Error:', error));
 });
 
-//editForm.addEventListener('submit', event => {
-//	event.preventDefault();
-//	const formData = new FormData(editForm);
-//	fetch(window.location.pathname + '/update/:id', {
-//		method: 'POST',
-//		body: formData
-//	})
-//	.then(response => window.location.reload())
-//	.catch(error => console.error('Error:', error));
-//});
+editForm.addEventListener('submit', event => {
+	event.preventDefault();
+	let dataObj = {};
+	for (let i = 0; i < editForm.elements.length; i++)
+		if (editForm.elements[i].name)
+			dataObj[editForm.elements[i].name] = editForm.elements[i].value;
+	
+	fetch(window.location.pathname + '/update', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(dataObj)
+	})
+	.then(response => window.location.reload())
+	.catch(error => console.error('Error:', error));
+});
 
-deleteForm.addEventListener('click', () => {
+deleteForm.addEventListener('submit', event => {
+	event.preventDefault();
 	const selectedRows = document.querySelectorAll('input.select-row:checked');
 	const ids = Array.from(selectedRows).map(row => row.parentElement.parentElement.getAttribute('data-id'));
 
