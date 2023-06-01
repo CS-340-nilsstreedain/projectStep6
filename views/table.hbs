@@ -9,8 +9,10 @@
 				{{#each data}}
 					{{#if @first}}
 						{{#each this}}
-							<label for="{{@key}}">{{@key}}:</label>
-							<input type="text" id="{{@key}}" name="{{@key}}">
+							{{#unless (entityKey ../../title @key)}}
+								<label for="{{@key}}">{{@key}}:</label>
+								<input type="text" id="{{@key}}" name="{{@key}}">
+							{{/unless}}
 						{{/each}}
 					{{/if}}
 				{{/each}}

@@ -71,7 +71,7 @@ createForm.addEventListener('submit', event => {
 	})
 	.catch(error => {
 		// Catch any error that happened along the way
-		document.getElementById('createError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+		document.getElementById('createError').innerText = 'There is a problem with your input:\n' + error.message;
 	});
 });
 
@@ -101,7 +101,7 @@ editForm.addEventListener('submit', event => {
 	})
 	.catch(error => {
 		// Catch any error that happened along the way
-		document.getElementById('editError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+		document.getElementById('editError').innerText = 'There is a problem with your input:\n' + error.message;
 	});
 });
 
@@ -126,7 +126,7 @@ deleteForm.addEventListener('submit', event => {
 		})
 		.catch(error => {
 			// Catch any error that happened along the way
-			document.getElementById('deleteError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+			document.getElementById('deleteError').innerText = 'There is a problem with your input:\n' + error.message;
 		});
 	});
 });

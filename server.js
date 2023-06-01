@@ -37,14 +37,14 @@ hbs.handlebars.registerHelper('isNotEqual', function(a, b, options) {
 	return a !== b ? options.fn(this) : options.inverse(this);
 });
 
-hbs.handlebars.registerHelper('entryKeys', function(a, b, options) {
+hbs.handlebars.registerHelper('entryKeys', function(a, b) {
 	return IDs[b].map(id => a[id]).join('_');
 });
 
-hbs.handlebars.registerHelper('getFirstKeyVal', function(context) {
-	for (let key in context)
-		if (context.hasOwnProperty(key))
-			return context[key];
+hbs.handlebars.registerHelper('entityKey', function(a, b) {
+	if (IDs[a].length === 1 && IDs[a][0] === b)
+		return true;
+	return false;
 });
 
 

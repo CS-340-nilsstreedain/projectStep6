@@ -131,6 +131,7 @@ nav div, nav a {
 		#createError, #editError, #deleteError {
 			color: red;
 			padding: 1vw;
+			font-size: medium;
 		}
 		
 		.formButtons {
