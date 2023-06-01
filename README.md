@@ -1,23 +1,6 @@
-# Project Step 4 Draft (Implement CRUD for One Entity)
+# Project Step 5 Draft (Implement MOST Remaining CRUD functionalities)
 ## Objective
-In this step, you implement the CREATE, READ, UPDATE and DELETE functionalities for ONE entity (table) in your web app as described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide). The project requires that each entity have an INSERT and SELECT (i.e., data can be added and displayed). It also requires at least one update and one delete for an M:N relationship. *Therefore, completing this step for a composite entity table may be a good idea.* However, it is also OK to spread these four CRUD functionalities across multiple entities/tables.
-
-The end result should be a functioning HTML page(s) that implements the back-end coding to connect with your database along with the logic to perform the four CRUD operations. Ideally, you will be using the HTML forms and SQL queries you submitted in the previous steps implemented in the web technology of your choice.
-
-If you haven't developed a web-based application before, we would recommend referring to one of the class starter guides for Node.JS or Flask.
-
-You may want to implement READ first since it is often the simplest operation. In the previous step, you decided what data your HTML pages would display. Now you need to implement the functionality to actually display the data on one of your pages. This will involve writing some code to submit the correct query (as indicated in your DML.sql file) to your back-end and displaying the results on your front-end. The code you write will depend on what languages/packages/etc. you plan to use. For example, if you are using a templating engine (e.g., handlebars or Jinja), then your method for displaying the data will be specific to that engine.
-
-**On the front-end**: make sure your forms for INSERT, UPDATE and DELETE are valid HTML code:
-- The input fields should have valid name attributes
-- The submit button should work (i.e., perform the expected action)
-- The form's action should point to the *correct route* (i.e., it should match the route provided by your server-side code)
-
-**On the back-end**:
-- Write code to retrieve the data by any HTTP request. This data should then be put in your DML query before it is executed on the database. Any results from the database would then be sent out in a HTTP response which would be displayed to the user.
-- All the interaction with the server-side code can happen in AJAX or not. Common errors and mistakes with server-side interaction and database querying can be debugged by printing (or using a debugging tool to display) a variable before it is processed and used. For example, you would want to print the request before actually extracting and using data from it because your form might send HTTP GET request but your server-side code handles only HTTP POST requests thus causing a mismatch.
-
-As always, if you have any questions, ask on Ed Discussions or in office hours!
+In this step, you implement the CREATE, READ, UPDATE and DELETE functionalities for ONE entity (table) in your web app as described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide). This step does not introduce any new project parts. Instead, this step is meant to keep our projects on track to submitting the final product next week. You should implement, at minimum, two-thirds of your CRUD functionalities. However, you are free to implement more. Finishing all CRUD functionalities in this for this step means more time for your group to prepare and polish your final submission.
 
 ## The Draft Phase
 Please see [Draft Phase](https://canvas.oregonstate.edu/courses/1914742/pages/draft-phase?wrap=1) for more information about this phase of the Project Step, including how to submit drafts.
@@ -60,19 +43,12 @@ Your DDL.sql file should be updated to reflect any changes in your design since 
 ### Deliverable 3: Data Manipulation Queries (DML.sql) - Updated Version
 Your DML.sql file should be updated to reflect any changes in your design since your last submission.
 
-### Deliverable 4: URL to your index.html page - Updated to Work with CRUD Functionalities
+### Deliverable 4: URL to your index.html page - Updated to Work with NEW CRUD Functionalities
 You should submit a URL of an index page containing links to those pages which implement the CRUD step in your website.
 
-At this point, we only expect pages for which you have implemented the CRUD functionalities to work. For example, if you implemented the CRUD functionalities over a composite entity table, then only the pages associated with those functionalities over that table need to work.
-- Your server-side code should use your DML queries outlined in DML.sql to implement the CRUD steps.
-- The READ step displays (using SELECT) data from the database table. If you implement a dynamic drop down or a search criterion these also use SELECT queries to run on your database.
-- The CREATE step accepts input from the static HTML pages and allow users to add new records to the entity using INSERT (not to be confused with CREATE TABLE).
-- The UPDATE step is used to modify existing data, using an UPDATE query. Note that it's really not acceptable to have the user enter IDs for foreign keys, since that could lead to wrong IDs being entered. You may implement a drop-down menu or something similar but should not have the user enter the ID manually.
-- The DELETE step is used to remove a record, typically using a DELETE and a primary key.
+We expect most of your functionality to work at this step. Review the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide) if you are unsure what these should.
 
-You should include this URL in your PDF on the first page.
-
-### Deliverable 5: Front-End and Back-End Code
+### Deliverable 5: Front-End and Back-End Code - Updated Versions
 Include the front-end (HTML, etc,.) and back-end (server-side) code for your project. Do not include folders of common libraries as this will make the zip file very large. Your code should be organized in a sensible way. Furthermore, the naming-convention of files/folders should make the organization self-documenting. Your code should also use meaningful variable names and include brief comments to explain logic. Any code that is not original should have a citation to clearly credit the source.
 
 ## Frequently Asked Questions:
