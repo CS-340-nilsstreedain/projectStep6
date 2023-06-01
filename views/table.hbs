@@ -15,6 +15,7 @@
 					{{/if}}
 				{{/each}}
 			</fieldset>
+			<p id="createError"></p>
 			<div class="formButtons">
 				<button type="button" id="createClose">Close</button>
 				<button type="submit">Submit</button>
@@ -35,6 +36,7 @@
 					{{/if}}
 				{{/each}}
 			</fieldset>
+			<p id="editError"></p>
 			<div class="formButtons">
 				<button type="button" id="editClose">Close</button>
 				<button type="submit">Submit</button>
@@ -46,6 +48,7 @@
 		<form method="dialog">
 			<legend>Delete {{title}}</legend>
 			<p>Are you sure you want to delete the selected {{title}}?</p>
+			<p id="deleteError"></p>
 			<div class="formButtons">
 				<button type="button" id="deleteClose">No</button>
 				<button type="submit">Yes</button>

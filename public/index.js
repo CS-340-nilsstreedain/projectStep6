@@ -59,8 +59,20 @@ createForm.addEventListener('submit', event => {
 		},
 		body: JSON.stringify(dataObj)
 	})
-	.then(response => window.location.reload())
-	.catch(error => console.error('Error:', error));
+	.then(response => {
+		if (!response.ok) {
+			// If HTTP status is not ok (e.g. 500), get the error message from the response
+			return response.json().then(errData => {
+				throw new Error(errData.error);
+			});
+		}
+		// If HTTP status is ok, reload the page
+		window.location.reload();
+	})
+	.catch(error => {
+		// Catch any error that happened along the way
+		document.getElementById('createError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+	});
 });
 
 editForm.addEventListener('submit', event => {
@@ -77,8 +89,20 @@ editForm.addEventListener('submit', event => {
 		},
 		body: JSON.stringify(dataObj)
 	})
-	.then(response => window.location.reload())
-	.catch(error => console.error('Error:', error));
+	.then(response => {
+		if (!response.ok) {
+			// If HTTP status is not ok (e.g. 500), get the error message from the response
+			return response.json().then(errData => {
+				throw new Error(errData.error);
+			});
+		}
+		// If HTTP status is ok, reload the page
+		window.location.reload();
+	})
+	.catch(error => {
+		// Catch any error that happened along the way
+		document.getElementById('editError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+	});
 });
 
 deleteForm.addEventListener('submit', event => {
@@ -90,7 +114,19 @@ deleteForm.addEventListener('submit', event => {
 		fetch(window.location.pathname + '/delete/' + id, {
 			method: 'POST'
 		})
-		.then(response => window.location.reload())
-		.catch(error => console.error('Error:', error));
+		.then(response => {
+			if (!response.ok) {
+				// If HTTP status is not ok (e.g. 500), get the error message from the response
+				return response.json().then(errData => {
+					throw new Error(errData.error);
+				});
+			}
+			// If HTTP status is ok, reload the page
+			window.location.reload();
+		})
+		.catch(error => {
+			// Catch any error that happened along the way
+			document.getElementById('deleteError').innerText = 'There has been a problem with your fetch operation:\n' + error.message;
+		});
 	});
 });

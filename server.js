@@ -68,11 +68,13 @@ pages.forEach(({title, url}) => {
 	} else {
 		app.get(url, (req, res) => {
 			db.pool.query('SELECT * FROM ' + title, (error, results) => {
-				if (error) throw error;
+				if (error)
+					console.log(error.sqlMessage);
 				
 				res.render('table', {
 					title: title,
 					data: results,
+					error: error ? error.sqlMessage : "",
 					pages
 				});
 			});
@@ -90,8 +92,10 @@ pages.forEach(({title, url}) => {
 
 		// Execute the query
 		db.pool.query(sql, values, (error, results) => {
-			if (error) throw error;
-			res.redirect(url);
+			if (error)
+				res.status(500).json({error: error.sqlMessage});
+			else
+				res.redirect(url);
 		});
 	});
 
@@ -103,21 +107,24 @@ pages.forEach(({title, url}) => {
 		var sql = '';
 		var tableIDs = IDs[title];
 		if (tableIDs.length == 1) {
-			console.log(keys[0]);
 			const sqlSet = keys.slice(1).map(key => `${key} = '${req.body[key]}'`).join(', ');
 			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ?`;
 			
 			db.pool.query(sql, values, (error, results) => {
-				if (error) throw error;
-				res.redirect(url);
+				if (error)
+					res.status(500).json({error: error.sqlMessage});
+				else
+					res.redirect(url);
 			});
 		} else {
 			const sqlSet = keys.slice(2).map(key => `${key} = '${req.body[key]}'`).join(', ');
 			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ? AND ${tableIDs[1]} = ?`;
 
 			db.pool.query(sql, values, (error, results) => {
-				if (error) throw error;
-				res.redirect(url);
+				if (error)
+					res.status(500).json({error: error.sqlMessage});
+				else
+					res.redirect(url);
 			});
 		}
 	});
@@ -130,15 +137,19 @@ pages.forEach(({title, url}) => {
 			sql = `DELETE FROM ${title} WHERE ${tableIDs[0]} = ?`;
 			
 			db.pool.query(sql, req.params.id, (error, results) => {
-				if (error) throw error;
-				res.redirect(url);
+				if (error)
+					res.status(500).json({error: error.sqlMessage});
+				else
+					res.redirect(url);
 			});
 		} else {
 			sql = `DELETE FROM ${title} WHERE ${tableIDs[0]} = ? AND ${tableIDs[1]} = ?`;
 			
 			db.pool.query(sql, req.params.id.split('_').map(Number), (error, results) => {
-				if (error) throw error;
-				res.redirect(url);
+				if (error)
+					res.status(500).json({error: error.sqlMessage});
+				else
+					res.redirect(url);
 			});
 		}
 	});
