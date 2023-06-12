@@ -81,7 +81,7 @@ editForm.addEventListener('submit', event => {
 	for (let i = 0; i < editForm.elements.length; i++)
 		if (editForm.elements[i].name)
 			dataObj[editForm.elements[i].name] = editForm.elements[i].value;
-	
+    
 	fetch(window.location.pathname + '/update', {
 		method: 'POST',
 		headers: {

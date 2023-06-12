@@ -9,10 +9,19 @@
 				{{#each data}}
 					{{#if @first}}
 						{{#each this}}
-							{{#unless (entityKey ../../title @key)}}
-								<label for="{{@key}}">{{@key}}:</label>
-								<input type="text" id="{{@key}}" name="{{@key}}">
-							{{/unless}}
+                            {{#if (multipleChoice ../../title @key)}}
+                                <label for="{{@key}}">{{@key}}:</label>
+                                <select name="{{@key}}" id="{{@key}}">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    {{#lookupAndEach ../../tables @key}}
+                                        <option value="{{this.[0]}}">{{this.[1]}}</option>
+                                    {{/lookupAndEach}}
+                                </select>
+                            {{else if (entityKey ../../title @key)}}
+                            {{else}}
+                                <label for="{{@key}}">{{@key}}:</label>
+                                <input type="text" id="{{@key}}" name="{{@key}}">
+                            {{/if}}
 						{{/each}}
 					{{/if}}
 				{{/each}}
@@ -32,8 +41,18 @@
 				{{#each data}}
 					{{#if @first}}
 						{{#each this}}
-							<label for="{{@key}}">{{@key}}:</label>
-							<input type="text" id="{{@key}}" name="{{@key}}">
+                            {{#if (multipleChoice ../../title @key)}}
+                                <label for="{{@key}}">{{@key}}:</label>
+                                <select name="{{@key}}" id="{{@key}}">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    {{#lookupAndEach ../../tables @key}}
+                                        <option value="{{this.[0]}}">{{this.[1]}}</option>
+                                    {{/lookupAndEach}}
+                                </select>
+                            {{else}}
+                                <label for="{{@key}}">{{@key}}:</label>
+                                <input type="text" id="{{@key}}" name="{{@key}}">
+                            {{/if}}
 						{{/each}}
 					{{/if}}
 				{{/each}}

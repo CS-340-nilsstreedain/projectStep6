@@ -14,14 +14,37 @@ const pages = [
 ];
 
 const IDs = {
-	'Customers': ['customerID'],
-	'Orders': ['orderID'],
-	'OrderBooks': ['orderID', 'bookID'],
-	'Books': ['bookID'],
-	'BookGenres': ['bookID', 'genreID'],
-	'Genres': ['genreID']
+    'Customers': {
+        "keys": ['customerID'],
+        "foriegnKeys": [{"name": "favoriteGenre", "key": "genreID"}]
+    },
+    'Orders': {
+        "keys": ['orderID'],
+        "foriegnKeys": [{"key": "customerID", "name": "customerID"}]
+    },
+    'OrderBooks': {
+        "keys": [],
+        "foriegnKeys": [
+            {"key": "orderID", "name": "orderID"},
+            {"key": "bookID", "name": "bookID"}
+        ]
+    },
+    'Books': {
+        "keys": ['bookID'],
+        "foriegnKeys": []
+    },
+    'BookGenres': {
+        "keys": [],
+        "foriegnKeys": [
+            {"key": "bookID", "name": "bookID"},
+            {"key": "genreID", "name": "genreID"}
+        ]
+    },
+    'Genres': {
+        "keys": ['genreID'],
+        "foriegnKeys": []
+    }
 };
-
 
 // Create an Express app
 const app = express();
@@ -29,7 +52,6 @@ const app = express();
 // Register custom helper for equality comparison
 const hbs = exphbs.create({});
 hbs.handlebars.registerHelper('isEqual', function(a, b, options) {
-//	console.log(options);
 	return a === b ? options.fn(this) : options.inverse(this);
 });
 
@@ -38,14 +60,44 @@ hbs.handlebars.registerHelper('isNotEqual', function(a, b, options) {
 });
 
 hbs.handlebars.registerHelper('entryKeys', function(a, b) {
-	return IDs[b].map(id => a[id]).join('_');
+	return IDs[b].keys.map(id => a[id]).join('_');
 });
 
 hbs.handlebars.registerHelper('entityKey', function(a, b) {
-	if (IDs[a].length === 1 && IDs[a][0] === b)
+	if (IDs[a].keys.length === 1 && IDs[a].keys[0] === b)
 		return true;
 	return false;
 });
+
+hbs.handlebars.registerHelper('multipleChoice', function(a, b) {
+    for (let i = 0; i < IDs[a].foriegnKeys.length; i++)
+        if (IDs[a].foriegnKeys[i].name == b)
+            return true;
+    return false;
+});
+
+
+hbs.handlebars.registerHelper('fkID', function(a, b) {
+    for (let i = 0; i < IDs[a].foriegnKeys.length; i++) {
+        if (IDs[a].foriegnKeys[i].name == b)
+            return IDs[a].foriegnKeys[i].key;
+    }
+    return false;
+});
+
+hbs.handlebars.registerHelper('lookupAndEach', function(context, key, options) {
+    const items = context[key];
+    let out = "";
+
+    if(Array.isArray(items)) {
+        for(let i = 0; i < items.length; i++) {
+            out += options.fn(items[i]);
+        }
+    }
+
+    return out;
+});
+
 
 
 // Configure express-handlebars
@@ -67,20 +119,60 @@ pages.forEach(({title, url}) => {
 		});
 	} else {
 		app.get(url, (req, res) => {
-			db.pool.query('SELECT * FROM ' + title, (error, results) => {
+			db.pool.query('SELECT * FROM ' + title, (error, tableResults) => {
 				if (error)
 					console.log(error.sqlMessage);
 				
-                // Format date column if it exists
-                if (results[0].date)
-                    results.forEach(element => element.date = element.date.toISOString().split('T')[0]);
-                
-				res.render('table', {
-					title: title,
-					data: results,
-					error: error ? error.sqlMessage : "",
-					pages
-				});
+                db.pool.query(`SELECT
+                COLUMN_NAME,
+                REFERENCED_TABLE_NAME,
+                REFERENCED_COLUMN_NAME
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                WHERE TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL`, [title], (error, results) => {
+                    
+                    // If the table doesn't have foreign keys, render the page without foreign key data
+                    if (results.length === 0) {
+                        res.render('table', {
+                            title: title,
+                            data: tableResults,
+                            error: error ? error.sqlMessage : "",
+                            pages
+                        });
+                        return;
+                    }
+                    
+                    let foreignKeyPromises = results.map(result => {
+                        let foreignTableName = result.REFERENCED_TABLE_NAME;
+                        let columnName = result.COLUMN_NAME;
+                        // Query the foreign table
+                        return new Promise((resolve, reject) => {
+                            db.pool.query(`SELECT * FROM ${foreignTableName}`, function(error, foreignTableResults) {
+                                if (error) {
+                                    reject(error);
+                                } else {
+                                    // Transform the results into a 2D array
+                                    let fks = foreignTableResults.map(row => Object.values(row));
+                                    let foreignKeyData = { [columnName]: fks };
+                                    resolve(foreignKeyData);
+                                }
+                            });
+                        });
+                    });
+
+                    Promise.all(foreignKeyPromises)
+                        .then(allForeignKeys => {
+                            let tables = Object.assign({}, ...allForeignKeys); // Combine all key-value pairs into one object
+                            console.log(tables);
+                            res.render('table', {
+                                title: title,
+                                data: tableResults,
+                                tables: tables,
+                                error: error ? error.sqlMessage : "",
+                                pages
+                            });
+                        })
+                        .catch(error => console.log(error));
+                });
 			});
 		});
 	}
