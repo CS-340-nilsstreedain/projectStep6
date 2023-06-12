@@ -1,77 +1,88 @@
-# Project Step 5 Draft (Implement MOST Remaining CRUD functionalities)
+# Project Step 6 (Portfolio Assignment)
 ## Objective
-In this step, you implement the CREATE, READ, UPDATE and DELETE functionalities for ONE entity (table) in your web app as described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide). This step does not introduce any new project parts. Instead, this step is meant to keep our projects on track to submitting the final product next week. You should implement, at minimum, two-thirds of your CRUD functionalities. However, you are free to implement more. Finishing all CRUD functionalities in this for this step means more time for your group to prepare and polish your final submission.
+This is the Final step of your project. At this point, you will submit all of the documentation and code for your full project. Your submission represents the final version of your application: there is no peer or group review for this Step. 
 
-## The Draft Phase
-Please see [Draft Phase](https://canvas.oregonstate.edu/courses/1914742/pages/draft-phase?wrap=1) for more information about this phase of the Project Step, including how to submit drafts.
+This assignment is designated as a program "portfolio assignment." You are encouraged to publicize it as part of your portfolio. Remember your school-hosted database will be deleted at the end of the term, so you may want to consider other options for showcasing your work. For example, you might record a video walkthrough of your website, put your final project PDF on LinkedIn, or host the site (MySQL database, HTML pages and code) on a third party hosting platform.
+
+For question about browser compatibility, see the FAQ section.
 
 ## Deliverable(s)
-(**NOTE**: in addition to the ZIP archive, you must include additional details in your discussion post. See below.)
-
-You should submit a **ZIP** archive containing **5 THINGS**:
-1. A **PDF** file containing information from previous steps. This file should be updated to reflect any changes made to the project. Furthermore, it should be consistent in its details of the overall design.
+You should submit a **ZIP** archive containing **5 THINGS** (note the additional requirements for the PDF document):
+1. Your final **PDF** including (in the same order as is listed here),
+    1. A one page (max) summary of feedback and changes made to this Project from the initial version until now.
+    2. Updated  (as appropriate) versions of your...
+      1. Project Outline
+      2. Database Outline
+      3. ERD
+      4. Schema
+      5. Sample Data.
+    3. A section containing screen captures of each of the UI pages on your website. There should be a title immediately above each Screen capture which explains the CRUD step (e.g., "READ/BROWSE/DISPLAY Customers page" or "CREATE/INSERT/ADD NEW Invoice page").
 2. An **SQL file containing your Data Definition Queries** (DDL.sql) and your **sample data INSERT statements**
-3. An **SQL file containing your Data Manipulation Queries** (DML.sql). These are the queries that your website uses to perform the user-requested CRUD operations. Thus SELECT, INSERT, UPDATE and DELETE queries to provide the functionalities described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide).
-4. A **URL** to an index.html listing all your HTML pages. Put this URL on the top of your PDF file as well as on your discussion post.
-5. The current versions of your front-end and back-end code.
+3. An **SQL file containing your Data Manipulation Queries** (DML.sql).
+4. The **URL** of **your hosted, functioning project website** on the first page of the PDF as well as a comment on your submission. You will need to prefix the URL with http:// or https:// . If you want your web app to be tested only on a specific browser, you must let the graders know by indicating so on the first page of the PDF in a noticeable fashion.
+5. **All the source code for your Project**: This includes files containing CSS, HTML, JS and the code for server-side platform that you decided to use. Code should include citations that clearly credit non-original work. For any external libraries, you may include the package.json (or the equivalent) instead of including all the files for the library. Please remove your username and password from the dbcon (or equivalent) file. **Points will be deducted from your grade if you do not include the source code.**
 
-The zip file should be named `projectgroupX_stepX_DRAFT/FINAL.zip` (e.g., `ProjectGroup42_Step4_DRAFT.zip` or `ProjectGroup42_Step4_FINAL.zip`).
+**Ensure consistency**: be sure to update each of your deliverables as necessary to ensure an overall consistency with your final design. If your design is not clear because it is inconsistent, then you may lose points.
 
-Your .ZIP file should be posted to the Ed Discussion (please follow the instructions under "How do I turn in this assignment" below). Both members' names and your Group number should be included in the files as well as a comment on the post.
+The project website should be up and running until the last day of term.
 
-**Ensure consistency**: as your project changes, be sure to update each of your deliverables as necessary to ensure an overall consistency in your design. If your design is not clear because it is inconsistent, then you may lose points.
+If you are still facing any issues, don't hesitate to ask for help.
 
-Along with the deliverables listed above, you must also include the following details in your discussion post:
-1. What functionality works,
-2. What functionality doesn’t work,
-3. Where/why you are blocked on certain functionality.
+### When asking a question always include:
+1. What's the unexpected behavior/error message that you face
+2. What you are trying to achieve
+3. A link to your code (using a website like pastebin.com). Make sure others can see all the related code files.
+4. What you have already tried. This ensures that others don't try solutions that you have already found to not work.
 
-This information is meant to help reviewers understand any difficulties you may be having with your project, giving them an opportunity to provide advice on how you might resolve any issues you have encountered. Thus, being detailed will help you receive better advice on how to overcome any issues. If all your functionality works, then feel free to say so in your post and omit #2 and #3 above. Also feel free to ask open-ended advice on existing/planned functionality.
+## Points:
+This assignment is worth 600 points of your Project Grade.
 
-### Deliverable 1: PDF File
-#### Fixes based on Feedback from Previous Steps:
-Itemize the issues raised by your peers and the TAs/instructors in Step 1. This means including a description of each issue as well as how you fixed it. If you chose not to address an issue raised by a peer or the TA/Instructor, you must indicate why you think the design should not change. In other words, you must reason why the perceived issue isn't really an issue. If you make any additional changes based on your own design decisions (including issues that you found and fixed on your own), they should also be listed here.
+You will be graded based on:
 
-If you haven't received any feedback, then state this here and do not include the preceding details.
+### Executive Summary:
+- 1 page (max) summary of feedback and changes made to this Project from the initial version until now.
+- Note that the summary is different from the previous steps which asked you to copy/paste feedback.
+- The executive summary has facts about the database design process and implementation steps. It is a reflection on the major changes to this project from your initial proposal to now (your final submission) as well as what feedback influenced those changes.
+- The executive summary should be included at the beginning of your PDF.
 
-#### Project Outline and Database Outline, ERD, Schema, & Sample Data - Updated Versions:
-This section should contain the updated outline, ERD, Schema and sample data based on the feedback from the grader and your peers as well as any design decisions that you decided to make on your own. It's required that you apply the various design tools you learned until now (like Normalization steps, ON DELETE CASCADE, etc.) to review and fix your ERD and Schema. Your Final Project submission will be graded based on your application of these concepts.
+### Project and Database Outlines:
+- The updated versions of the Project and Database outline. Reading these should give a layman the complete idea of your Project and its "minworld," making the navigation of your website intuitive.
 
-### Deliverable 2: Data Definition Queries (DDL.sql) - Updated Version
-Your DDL.sql file should be updated to reflect any changes in your design since your last submission.
+### ER Diagram:
+- The updated version of your ERD following the notations we use in the class.
 
-### Deliverable 3: Data Manipulation Queries (DML.sql) - Updated Version
-Your DML.sql file should be updated to reflect any changes in your design since your last submission.
+### Schema:
+- The updated version of the schema that should reflect the database outline exactly. It will be graded on the extent to which it matches the outline with an emphasis on if relationships and keys are correct. Again, please stick to the notations that we use in the class.
 
-### Deliverable 4: URL to your index.html page - Updated to Work with NEW CRUD Functionalities
-You should submit a URL of an index page containing links to those pages which implement the CRUD step in your website.
+### UI Screen Shots with Informative Titles
+- Screen captures of each of the UI pages on your website. Add a title immediately above each Screen capture that explains the CRUD step (e.g. "READ/BROWSE/DISPLAY Customers page" or "CREATE/INSERT/ADD NEW Invoice page").
 
-We expect most of your functionality to work at this step. Review the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide) if you are unsure what these should.
+### Data Definition Queries (DDL.sql):
+- The updated version of the SQL file should be cleanly import-able on the database Server that is used to host your CS340 database. If the .sql file cannot be imported or does not create tables as your Schema describes you will lose all of these points.
 
-### Deliverable 5: Front-End and Back-End Code - Updated Versions
-Include the front-end (HTML, etc,.) and back-end (server-side) code for your project. Do not include folders of common libraries as this will make the zip file very large. Your code should be organized in a sensible way. Furthermore, the naming-convention of files/folders should make the organization self-documenting. Your code should also use meaningful variable names and include brief comments to explain logic. Any code that is not original should have a citation to clearly credit the source.
+### Data Manipulation Queries (DML.sql):
+- The updated version of the SQL file which provides all your DML queries in the format described in Project Step 3. You will lose points if you don't have queries providing the functionalities listed in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide).
+
+### Website Functionality:
+- All the functionalities described in the [CS340 Project Guide](https://canvas.oregonstate.edu/courses/1914742/pages/cs340-project-guide) should be implemented.
+- You should not expect the user to manually enter foreign keys. Instead, you should abstract foreign keys away from the interface by providing drop-down menus or some other UI element, allowing users to establish relationships between objects based on identifying features of those objects rather than on arbitrary numbers (i.e., IDs). For example, in the BSG database, when adding a row to the relation between bsg_people and bsg_cert, we would expect the bsg_cert.title values to be shown in a dropdown (or perhaps as a set of radio buttons) rather than a drop down populated with bsg_cert.id. And we certainly would not expect the user to know and enter the correct bsg_cert.id by hand into a text box.
+- The URL of the website should be included in the PDF as well as in a comment on the submission.
+- READ/BROWSE/DISPLAY pages (SELECT for every table)
+- CREATE/INSERT/ADD NEW pages (INSERT for every table)
+- DELETE functionality (for at least one M:N, i.e., a composite entity, causing no anomalies)
+- EDIT/UPDATE functionality (for at least one M:N, i.e., a composite entity)
+- DYNAMIC DISPLAY/SEARCH functionality (for at least one table)
+
+### Style:
+- Your website should be reasonably easy to navigate. We are not expecting any fancy CSS, but tabular data should be displayed in tables and form elements should be reasonably grouped. Section headers for parts of your pages/forms would definitely make your site easier to navigate. Furthermore, the CRUD operations should be somewhat obvious to complete.
+- Your write-up in the PDF should be well formatted and divided into sections for easy navigation and readability.
+- Your SQL files should have brief comments mentioning what functionality/entity/relationship the query is related to.
+
+**Points will be deducted if you do not include the source code.**
 
 ## Frequently Asked Questions:
-### This is too much work! I can't complete it in so much short time!
-Well, actually you don't need to implement all the pages with all the functionalities! You just need to get started. Since this is Step has only a Draft and Review, you get points for simply turning in things as they are. If you get stuck and can't implement anything, you can still turn it in on the Review Group and get points for submission and discussion. You have until Final Week to get the web application working.
+### Does my project actually satisfy all the criteria ?/What does X spec from the Project Spec mean?
+Ask in office hours/Ed Discussions, describing the relevant details of your Project so that we can help you. Implementations are hard to describe in generic manner and it always helps to talk in terms of your project.
 
-### My website isn't finished, what should I do?
-This assignment is to ensure that you get timely feedback (and also give others) about how your programming approach is coming along. Your project need not be completely functioning for this Step's submission since it won't be graded based on that.
-
-### How exactly is this different from the Step where I created those HTML pages?
-In this Step, you will be actually writing backend code to display data from the database. So the sample data that you provided in the previous Steps should be displayed when a user visits those pages.
-
-### What platform can I use to interact with the database?
-You can write your backend code in anything as long as you write all the SQL queries yourself and don't depend on a library like an ORM to generate them for you. Basically, you will just need to put all your Data Manipulation Queries in your backend code to send to the database and then process their result to be displayed on the web page.
-
-### How do I connect to the database !? I haven't used NodeJS/Flask before!
-Well, actually you did connect to a database in Week 1 using NodeJS or Flask. Also, you may use the sample code provided in the project starter apps to build upon. Looking at that code should help answer most of your questions. But if you are still stuck, please ask in Ed Discussions or teams.
-
-### How many web pages should my project have?
-There is neither a minimum or maximum number of HTML pages that your project should have but it is desirable that your project is spread across different pages rather than a single one. You may combine or separate functionalities from the CS340 Project Guide across pages as you deem necessary.
-
-### Should this field in my form be a textbox/textarea/drop-down/some new UX style fancy element ?
-This is your choice and an user needs to easily understand how to use it (maybe if it's too difficult you could provide tooltips about how to use it). Your reviewers/graders might disagree and you should be able to justify the usage of one over the other.
-
-### I want to implement functionalities like shopping cart/login/authorization/authentication in my Project?
-You really shouldn't need to implement authentication or a shopping cart, since this is primarily about giving admin CRUD access to your entities instead of a customer facing shopping experience. So prioritize implementing all of the functionalities described in CS340 Project Guide first and then later you may add any extra functionalities if you want. In case you are implementing some kind of authentication mechanism, be sure to provide the peer reviewers and graders a way to authenticate without having to sign-up (like a default username and password which you would include in your submission somewhere)
+### Should my Project be compatible with all/X/Y/Z browser ? What browser should it be able to run to?
+If you want your web app to be tested only on a specific browser, let the graders know by indicating on: a) the first page of the PDF in a noticeable fashion AND b) on every page of your website. Without such a note, the graders will test it using the browser they prefer and would expect it to work.
