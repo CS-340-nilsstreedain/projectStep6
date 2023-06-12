@@ -71,6 +71,10 @@ pages.forEach(({title, url}) => {
 				if (error)
 					console.log(error.sqlMessage);
 				
+                // Format date column if it exists
+                if (results[0].date)
+                    results.forEach(element => element.date = element.date.toISOString().split('T')[0]);
+                
 				res.render('table', {
 					title: title,
 					data: results,

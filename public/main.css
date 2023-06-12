@@ -7,6 +7,7 @@
 	--mPad: 30px;
 	--bPad: 90px;
     --vPad: 5vw;
+    --numNav: 7;
 }
 
 @font-face {
@@ -27,7 +28,7 @@ body {
 nav {
 	position: fixed;
 	top: 0;
-	width: 100%;
+	width: 100vw;
 	left: 0;
 	height: 57px;
 	background-color: var(--lGray);
@@ -46,7 +47,7 @@ nav div, nav a {
 	align-items: center;
 	justify-content: center;
 /*    width: calc(5 * var(--mPad));*/
-    width: calc(90vw / 7);
+    width: calc(90vw / var(--numNav));
 }
 
 .page, #util p {
@@ -65,7 +66,8 @@ nav div, nav a {
 }
 
 #util {
-	width: calc(3 * var(--bPad));
+/*	width: calc(3 * var(--bPad));*/
+    width: calc(90vw / var(--numNav) * 2 - var(--mPad));
 }
 
 #util h1 {
@@ -97,7 +99,7 @@ nav div, nav a {
 }
 
 #util dialog {
-	width: 50%;
+	width: 50vw;
 	border: none;
 	border-radius: 10px;
 	
@@ -148,7 +150,7 @@ nav div, nav a {
 main {
 	padding: var(--mPad);
 	padding-top: 0;
-	width: 100%;
+/*	width: 100%;*/
 	border-radius: 10px;
 	box-shadow: 0 4px 8px 0 var(--mGray);
 	background-color: #fff;
@@ -176,7 +178,7 @@ table {
     }
     
 	& thead th {
-		text-align: left;
+        text-align: left;
         background-color: var(--accent);
 		color: #fff;
 	}
