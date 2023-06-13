@@ -56,7 +56,10 @@ hbs.handlebars.registerHelper('isEqual', function(a, b, options) {
 });
 
 hbs.handlebars.registerHelper('entryKeys', function(a, b) {
-	return IDs[b].keys.map(id => a[id]).join('_');
+    if (IDs[b].keys.length == 1)
+        return a[IDs[b].keys[0]];
+    else
+        return a[IDs[b].foriegnKeys[0].key] + "_" + a[IDs[b].foriegnKeys[1].key];
 });
 
 hbs.handlebars.registerHelper('entityKey', function(a, b) {
@@ -89,38 +92,94 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.static('public'));
 
-function generateSQL(tableName) {
-    let fks = IDs[tableName].foriegnKeys;
-    let sql = `SELECT a.*`;
+//function generateSQL(tableName) {
+//    let fks = IDs[tableName].foriegnKeys;
+//    let sql = `SELECT a.*`;
+//    
+//    // Check if there are any foreign keys
+//    if (fks && fks.length > 0) {
+//        // Loop through each foreign key
+//        
+//        let foreignTableNames = [];
+//        for (let i = 0; i < fks.length; i++) {
+//            // The foreign table's name is determined by looking up the 'key' in the IDs object
+//            for(let potentialTable in IDs) {
+//                if(IDs[potentialTable].keys.includes(fks[i].key)){
+//                    foreignTableNames[i] = potentialTable;
+//                    break;
+//                }
+//            }
+//        }
+//        
+//            // Now the alias will be bi where i is the index of the foreign key
+//        for (let i = 0; i < fks.length; i++)
+//            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
+//        sql += ` FROM ${tableName} a`;
+//        
+//            // Add the JOIN clause for this foreign key
+//        for (let i = 0; i < fks.length; i++)
+//            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
+//    // If there are no foreign keys, just add the FROM clause
+//    } else
+//        sql += ` FROM ${tableName} a`;
+//    
+//    return sql;
+//}function generateSQL(tableName) {
+//    let fks = IDs[tableName].foriegnKeys;
+//    let sql = `SELECT a.*`;
+//    
+//    // Check if there are any foreign keys
+//    if (fks && fks.length > 0) {
+//        // Loop through each foreign key
+//        
+//        let foreignTableNames = [];
+//        for (let i = 0; i < fks.length; i++) {
+//            // The foreign table's name is determined by looking up the 'key' in the IDs object
+//            for(let potentialTable in IDs) {
+//                if(IDs[potentialTable].keys.includes(fks[i].key)){
+//                    foreignTableNames[i] = potentialTable;
+//                    break;
+//                }
+//            }
+//        }
+//        
+//            // Now the alias will be bi where i is the index of the foreign key
+//        for (let i = 0; i < fks.length; i++)
+//            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
+//        sql += ` FROM ${tableName} a`;
+//        
+//            // Add the JOIN clause for this foreign key
+//        for (let i = 0; i < fks.length; i++)
+//            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
+//    // If there are no foreign keys, just add the FROM clause
+//    } else
+//        sql += ` FROM ${tableName} a`;
+//    
+//    return sql;
+//}
+
+// Function to handle database modifying queries
+function modQuery(sql, params, res, url) {
+    db.pool.query(sql, params, (error, results) => {
+        if (error) res.status(500).json({error: error.sqlMessage});
+        else res.redirect(url);
+    });
+}
+
+// Function to handle SQL statements for Update and Delete
+const handleSQLStatement = (action, req, res, url, title) => {
+    const keys = Object.keys(req.body);
+    const sqlSet = keys.slice(IDs[title].keys.length).map(key => `${key} = '${req.body[key]}'`).join(', ');
     
-    // Check if there are any foreign keys
-    if (fks && fks.length > 0) {
-        // Loop through each foreign key
-        
-        let foreignTableNames = [];
-        for (let i = 0; i < fks.length; i++) {
-            // The foreign table's name is determined by looking up the 'key' in the IDs object
-            for(let potentialTable in IDs) {
-                if(IDs[potentialTable].keys.includes(fks[i].key)){
-                    foreignTableNames[i] = potentialTable;
-                    break;
-                }
-            }
-        }
-        
-            // Now the alias will be bi where i is the index of the foreign key
-        for (let i = 0; i < fks.length; i++)
-            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
-        sql += ` FROM ${tableName} a`;
-        
-            // Add the JOIN clause for this foreign key
-        for (let i = 0; i < fks.length; i++)
-            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
-    // If there are no foreign keys, just add the FROM clause
-    } else
-        sql += ` FROM ${tableName} a`;
+    let sqlConditions = "";
+    if (IDs[title].keys.length == 1)
+        sqlConditions = tableIDs[0] + " = ?";
+    else
+        sqlConditions = IDs[title].foriegnKeys[0].key + " = ? AND " + IDs[title].foriegnKeys[1].key + " = ?";
     
-    return sql;
+    const sql = `${action} ${title} ${action === 'UPDATE' ? 'SET ' + sqlSet : ''} WHERE ${sqlConditions}`;
+    
+    modQuery(sql, Object.values(req.body).toString().split("_").map(Number), res, url);
 }
 
 // Create routes for each page
@@ -134,16 +193,14 @@ pages.forEach(({title, url}) => {
 		});
 	} else {
 		app.get(url, (req, res) => {
-            db.pool.query(generateSQL(title), (error, tableResults) => {
+//            db.pool.query(generateSQL(title), (error, tableResults) => {
+            db.pool.query(`SELECT * FROM ${title}`, (error, tableResults) => {
 				if (error)
 					console.log(error.sqlMessage);
 				
-                db.pool.query(`SELECT
-                COLUMN_NAME,
-                REFERENCED_TABLE_NAME,
-                REFERENCED_COLUMN_NAME
-                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-                WHERE TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL`, [title], (error, results) => {
+                db.pool.query(`SELECT COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                    WHERE TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL`, [title], (error, results) => {
                     
                     // If the table doesn't have foreign keys, render the page without foreign key data
                     if (results.length === 0) {
@@ -176,13 +233,14 @@ pages.forEach(({title, url}) => {
 
                     Promise.all(foreignKeyPromises)
                         .then(allForeignKeys => {
-                            console.log(allForeignKeys);
                             let tables = Object.assign({}, ...allForeignKeys); // Combine all key-value pairs into one object
-                            console.log(tables);
+                            
                             // Format date column if it exists
                             if (tableResults[0].date)
-                                tableResults.forEach(element => element.date = element.date.toISOString().split('T')[0]);
-                            
+                                for (let i = 0; i < tableResults.length; i++)
+                                    if (tableResults[i].date instanceof Date)
+                                        tableResults[i].date = tableResults[i].date.toISOString();
+  
                             res.render('table', {
                                 title: title,
                                 data: tableResults,
@@ -197,78 +255,25 @@ pages.forEach(({title, url}) => {
 		});
 	}
 	
-	// CREATE
-	app.post(url + '/create', (req, res) => {
-		// Construct keys and values arrays
-		const keys = Object.keys(req.body);
-		const values = Object.values(req.body);
+    // CREATE
+    app.post(url + '/create', (req, res) => {
+        const keys = Object.keys(req.body);
+        const values = Object.values(req.body);
+        const sql = `INSERT INTO ${title} (${keys.join(',')}) VALUES (${keys.map(() => '?').join(',')})`;
 
-		// Build SQL statement
-		const sql = `INSERT INTO ${title} (${keys.join(',')}) VALUES (${keys.map(() => '?').join(',')})`;
+        modQuery(sql, values, res, url);
+    });
 
-		// Execute the query
-		db.pool.query(sql, values, (error, results) => {
-			if (error)
-				res.status(500).json({error: error.sqlMessage});
-			else
-				res.redirect(url);
-		});
-	});
+    // UPDATE
+    app.post(url + '/update', (req, res) => {
+        handleSQLStatement('UPDATE', req, res, url, title);
+    });
 
-	// UPDATE
-	app.post(url + '/update', (req, res) => {
-		const keys = Object.keys(req.body);
-		const values = Object.values(req.body);
-		
-		var sql = '';
-		var tableIDs = IDs[title];
-		if (tableIDs.length == 1) {
-			const sqlSet = keys.slice(1).map(key => `${key} = '${req.body[key]}'`).join(', ');
-			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ?`;
-			
-			db.pool.query(sql, values, (error, results) => {
-				if (error)
-					res.status(500).json({error: error.sqlMessage});
-				else
-					res.redirect(url);
-			});
-		} else {
-			const sqlSet = keys.slice(2).map(key => `${key} = '${req.body[key]}'`).join(', ');
-			const sql = `UPDATE ${title} SET ${sqlSet} WHERE ${tableIDs[0]} = ? AND ${tableIDs[1]} = ?`;
-
-			db.pool.query(sql, values, (error, results) => {
-				if (error)
-					res.status(500).json({error: error.sqlMessage});
-				else
-					res.redirect(url);
-			});
-		}
-	});
-
-	// DELETE
-	app.post(url + '/delete/:id', (req, res) => {
-		var sql = '';
-		var tableIDs = IDs[title];
-		if (tableIDs.length == 1) {
-			sql = `DELETE FROM ${title} WHERE ${tableIDs[0]} = ?`;
-			
-			db.pool.query(sql, req.params.id, (error, results) => {
-				if (error)
-					res.status(500).json({error: error.sqlMessage});
-				else
-					res.redirect(url);
-			});
-		} else {
-			sql = `DELETE FROM ${title} WHERE ${tableIDs[0]} = ? AND ${tableIDs[1]} = ?`;
-			
-			db.pool.query(sql, req.params.id.split('_').map(Number), (error, results) => {
-				if (error)
-					res.status(500).json({error: error.sqlMessage});
-				else
-					res.redirect(url);
-			});
-		}
-	});
+    // DELETE
+    app.post(url + '/delete/:id', (req, res) => {
+        req.body.id = req.params.id;
+        handleSQLStatement('DELETE FROM', req, res, url, title);
+    });
 });
 
 app.listen(PORT, function (err) {

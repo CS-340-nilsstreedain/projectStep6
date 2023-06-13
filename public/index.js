@@ -126,7 +126,7 @@ deleteForm.addEventListener('submit', event => {
 		})
 		.catch(error => {
 			// Catch any error that happened along the way
-			document.getElementById('deleteError').innerText = 'There is a problem with your input:\n' + error.message;
+			document.getElementById('deleteError').innerText = 'There was a problem communicating with the database:\n' + error.message;
 		});
 	});
 });
