@@ -12,7 +12,7 @@
                             {{#if (multipleChoice ../../title @key)}}
                                 <label for="{{@key}}">{{@key}}:</label>
                                 <select name="{{@key}}" id="{{@key}}">
-                                    <option disabled selected value> -- select an option -- </option>
+                                    <option disabled selected value> -- select {{@key}} -- </option>
                                     {{#lookupAndEach ../../tables @key}}
                                         <option value="{{this.[0]}}">{{this.[1]}}</option>
                                     {{/lookupAndEach}}
@@ -44,10 +44,20 @@
                             {{#if (multipleChoice ../../title @key)}}
                                 <label for="{{@key}}">{{@key}}:</label>
                                 <select name="{{@key}}" id="{{@key}}">
-                                    <option disabled selected value> -- select an option -- </option>
+                                    <option disabled selected value> -- select {{@key}} -- </option>
                                     {{#lookupAndEach ../../tables @key}}
                                         <option value="{{this.[0]}}">{{this.[1]}}</option>
                                     {{/lookupAndEach}}
+                                </select>
+                            {{else if (entityKey ../../title @key)}}
+                                <label for="{{@key}}">{{@key}}:</label>
+                                <select name="{{@key}}" id="{{@key}}">
+                                    <option disabled selected value> -- select {{@key}} -- </option>
+                                    {{#each ../../data}}
+                                        <option value="{{entryKeys this ../../../title}}">
+                                            {{this.title}}{{this.orderID}}{{this.name}}
+                                        </option>
+                                    {{/each}}
                                 </select>
                             {{else}}
                                 <label for="{{@key}}">{{@key}}:</label>

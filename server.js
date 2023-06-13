@@ -5,28 +5,28 @@ var db = require('./db-connector')
 const PORT = process.env.PORT || 6784;
 const pages = [
 	{title: 'Home', url: '/'},
-	{title: 'Customers', url: '/customers', IDs: ['customerID']},
-	{title: 'Orders', url: '/orders', IDs: ['orderID']},
-	{title: 'OrderBooks', url: '/orderbooks', IDs: ['orderID', 'bookID']},
-	{title: 'Books', url: '/books', IDs: ['bookID']},
-	{title: 'BookGenres', url: '/bookgenres', IDs: ['bookID', 'genreID']},
-	{title: 'Genres', url: '/genres', IDs: ['genreID']}
+	{title: 'Customers', url: '/customers'},
+	{title: 'Orders', url: '/orders'},
+	{title: 'OrderBooks', url: '/orderbooks'},
+	{title: 'Books', url: '/books'},
+	{title: 'BookGenres', url: '/bookgenres'},
+	{title: 'Genres', url: '/genres'}
 ];
 
 const IDs = {
     'Customers': {
         "keys": ['customerID'],
-        "foriegnKeys": [{"name": "favoriteGenre", "key": "genreID"}]
+        "foriegnKeys": [{"name": "favoriteGenre", "key": "genreID", "refColumn": "name"}]
     },
     'Orders': {
         "keys": ['orderID'],
-        "foriegnKeys": [{"key": "customerID", "name": "customerID"}]
+        "foriegnKeys": [{"key": "customerID", "name": "customerID", "refColumn": "name"}]
     },
     'OrderBooks': {
         "keys": [],
         "foriegnKeys": [
-            {"key": "orderID", "name": "orderID"},
-            {"key": "bookID", "name": "bookID"}
+            {"key": "orderID", "name": "orderID", "refColumn": "orderID"},
+            {"key": "bookID", "name": "bookID", "refColumn": "title"}
         ]
     },
     'Books': {
@@ -36,8 +36,8 @@ const IDs = {
     'BookGenres': {
         "keys": [],
         "foriegnKeys": [
-            {"key": "bookID", "name": "bookID"},
-            {"key": "genreID", "name": "genreID"}
+            {"key": "bookID", "name": "bookID", "refColumn": "title"},
+            {"key": "genreID", "name": "genreID", "refColumn": "name"}
         ]
     },
     'Genres': {
@@ -53,10 +53,6 @@ const app = express();
 const hbs = exphbs.create({});
 hbs.handlebars.registerHelper('isEqual', function(a, b, options) {
 	return a === b ? options.fn(this) : options.inverse(this);
-});
-
-hbs.handlebars.registerHelper('isNotEqual', function(a, b, options) {
-	return a !== b ? options.fn(this) : options.inverse(this);
 });
 
 hbs.handlebars.registerHelper('entryKeys', function(a, b) {
@@ -76,37 +72,56 @@ hbs.handlebars.registerHelper('multipleChoice', function(a, b) {
     return false;
 });
 
-
-hbs.handlebars.registerHelper('fkID', function(a, b) {
-    for (let i = 0; i < IDs[a].foriegnKeys.length; i++) {
-        if (IDs[a].foriegnKeys[i].name == b)
-            return IDs[a].foriegnKeys[i].key;
-    }
-    return false;
-});
-
 hbs.handlebars.registerHelper('lookupAndEach', function(context, key, options) {
     const items = context[key];
     let out = "";
 
-    if(Array.isArray(items)) {
-        for(let i = 0; i < items.length; i++) {
+    if(Array.isArray(items))
+        for(let i = 0; i < items.length; i++)
             out += options.fn(items[i]);
-        }
-    }
 
     return out;
 });
 
-
-
 // Configure express-handlebars
 app.engine('hbs', exphbs.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
-
 app.use(express.json());
-
 app.use(express.static('public'));
+
+function generateSQL(tableName) {
+    let fks = IDs[tableName].foriegnKeys;
+    let sql = `SELECT a.*`;
+    
+    // Check if there are any foreign keys
+    if (fks && fks.length > 0) {
+        // Loop through each foreign key
+        
+        let foreignTableNames = [];
+        for (let i = 0; i < fks.length; i++) {
+            // The foreign table's name is determined by looking up the 'key' in the IDs object
+            for(let potentialTable in IDs) {
+                if(IDs[potentialTable].keys.includes(fks[i].key)){
+                    foreignTableNames[i] = potentialTable;
+                    break;
+                }
+            }
+        }
+        
+            // Now the alias will be bi where i is the index of the foreign key
+        for (let i = 0; i < fks.length; i++)
+            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
+        sql += ` FROM ${tableName} a`;
+        
+            // Add the JOIN clause for this foreign key
+        for (let i = 0; i < fks.length; i++)
+            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
+    // If there are no foreign keys, just add the FROM clause
+    } else
+        sql += ` FROM ${tableName} a`;
+    
+    return sql;
+}
 
 // Create routes for each page
 pages.forEach(({title, url}) => {
@@ -119,7 +134,7 @@ pages.forEach(({title, url}) => {
 		});
 	} else {
 		app.get(url, (req, res) => {
-			db.pool.query('SELECT * FROM ' + title, (error, tableResults) => {
+            db.pool.query(generateSQL(title), (error, tableResults) => {
 				if (error)
 					console.log(error.sqlMessage);
 				
@@ -161,8 +176,13 @@ pages.forEach(({title, url}) => {
 
                     Promise.all(foreignKeyPromises)
                         .then(allForeignKeys => {
+                            console.log(allForeignKeys);
                             let tables = Object.assign({}, ...allForeignKeys); // Combine all key-value pairs into one object
                             console.log(tables);
+                            // Format date column if it exists
+                            if (tableResults[0].date)
+                                tableResults.forEach(element => element.date = element.date.toISOString().split('T')[0]);
+                            
                             res.render('table', {
                                 title: title,
                                 data: tableResults,
