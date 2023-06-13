@@ -1,8 +1,21 @@
+/**
+ * @file server.js
+ * @brief This file implements a server using Express.js framework to handle HTTP requests and interact with a database.
+ * The server provides various routes for different website pages and performs CRUD operations on the database tables.
+ * Author: Nils Streedain (https://github.com/nilsstreedain)
+ */
+
+// Import required libraries and dependencies
 const express = require('express');
 const exphbs = require('express-handlebars');
+
+// Database connector module
 var db = require('./db-connector')
 
+// Define port number from environment variables, or use 6784 as default
 const PORT = process.env.PORT || 6784;
+
+// Define website pages and their routes
 const pages = [
 	{title: 'Home', url: '/'},
 	{title: 'Customers', url: '/customers'},
@@ -13,6 +26,7 @@ const pages = [
 	{title: 'Genres', url: '/genres'}
 ];
 
+// Define foreign key and key information for database tables
 const IDs = {
     'Customers': {
         "keys": ['customerID'],
@@ -46,11 +60,13 @@ const IDs = {
     }
 };
 
-// Create an Express app
+// Initialize an Express application
 const app = express();
 
-// Register custom helper for equality comparison
+// Initialize an instance of express-handlebars
 const hbs = exphbs.create({});
+
+// Register handlebars helper functions for template manipulation
 hbs.handlebars.registerHelper('isEqual', function(a, b, options) {
 	return a === b ? options.fn(this) : options.inverse(this);
 });
@@ -86,20 +102,26 @@ hbs.handlebars.registerHelper('lookupAndEach', function(context, key, options) {
     return out;
 });
 
-// Configure express-handlebars
+// Set 'hbs' as the templating engine for the Express app
 app.engine('hbs', exphbs.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
+
+// Middleware for parsing JSON bodies from HTTP requests
 app.use(express.json());
+
+// Serve static files from the 'public' directory
 app.use(express.static('public'));
 
-// Function to handle database modifying queries
+// Function to handle database modifying queries (Insert, Update, Delete)
 function modQuery(sql, params, res, url) {
+    console.log(sql);
     db.pool.query(sql, params, (error, results) => {
         if (error) res.status(500).json({error: error.sqlMessage});
         else res.redirect(url);
     });
 }
 
+// Function to render the page with data fetched from the database
 function renderPage(res, title, tables, tableResults, error) {
     res.render('table', {
         title: title,
@@ -110,16 +132,24 @@ function renderPage(res, title, tables, tableResults, error) {
     });
 }
 
-// Function to handle SQL statements for Update and Delete
+// Function to handle SQL statements for Update and Delete operations
 const handleSQLStatement = (action, req, res, url, title) => {
     const keys = Object.keys(req.body);
     const sqlSet = keys.slice(IDs[title].keys.length).map(key => `${key} = '${req.body[key]}'`).join(', ');
     
     let sqlConditions = "";
-    if (IDs[title].keys.length == 1)
-        sqlConditions = tableIDs[0] + " = ?";
-    else
-        sqlConditions = IDs[title].foriegnKeys[0].key + " = ? AND " + IDs[title].foriegnKeys[1].key + " = ?";
+    if (IDs[title].keys.length == 1) {
+        if (action === 'UPDATE')
+            sqlConditions = IDs[title].keys[0] + " = " + req.body[IDs[title].keys[0]];
+        else if (action === 'DELETE FROM')
+            sqlConditions = IDs[title].keys[0] + " = " + req.body.id;
+    } else {
+        if (action === 'UPDATE')
+            sqlConditions = IDs[title].foriegnKeys[0].key + " = " + req.body[IDs[title].foriegnKeys[0].key] + " AND " + IDs[title].foriegnKeys[1].key + " = " + req.body[IDs[title].foriegnKeys[1].key];
+        else if (action === 'DELETE FROM')
+            sqlConditions = IDs[title].foriegnKeys[0].key + " = " + req.body.id.split("_")[0] + " AND " + IDs[title].foriegnKeys[1].key + " = " + req.body.id.split("_")[1];
+        
+    }
     
     const sql = `${action} ${title} ${action === 'UPDATE' ? 'SET ' + sqlSet : ''} WHERE ${sqlConditions}`;
     
