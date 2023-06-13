@@ -65,40 +65,53 @@ nav div, nav a {
 	background-color: var(--mGray);
 }
 
-#util {
+menu {
 /*	width: calc(3 * var(--bPad));*/
     width: calc(90vw / var(--numNav) * 2 - var(--mPad));
+    padding: 0;
 }
 
-#util h1 {
+menu h1 {
 	margin: 0;
 	color: var(--accent);
 }
 
-#util p {
+menu p {
 	margin: 0;
 	font-size: 1.17em;
 }
 
-#util button {
-	width: 100%;
-	height: calc(var(--mPad) * 1.5);
-	margin: var(--sPad) 0 0;
-	border: 2px solid transparent;
-	border-radius: 5px;
-	background-color: var(--mGray);
-	color: var(--dGray);
-	font-size: medium;
-	font-weight: bold;
-	font-family: typeface;
+menu .search, menu button {
+    width: 100%;
+    height: calc(var(--mPad) * 1.5);
+    margin: var(--sPad) 0 0;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: medium;
+    font-weight: bold;
+    font-family: typeface;
 }
 
-#util button:hover {
+menu .search {
+    padding-left: var(--sPad);
+}
+
+menu button {
+	background-color: var(--mGray);
+	color: var(--dGray);
+}
+
+menu button:hover {
 	background-color: var(--lGray);
 	border-color: var(--mGray);
 }
 
-#util dialog {
+hr {
+    border: 1px solid var(--mGray);
+    margin: var(--sPad) 0 0;
+}
+
+menu dialog {
 	width: 50vw;
 	border: none;
 	border-radius: 10px;

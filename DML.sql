@@ -13,11 +13,17 @@ SELECT * FROM Books;
 -- 4. Get all orders
 SELECT * FROM Orders;
 
--- 5. Get all books of a specific genre
+-- 5. Get all books of a similar genre
 -- Dynamic inputs: (:genreID)
 SELECT Books.* FROM Books
 JOIN BookGenres ON Books.bookID = BookGenres.bookID
-WHERE BookGenres.genreID = :genreID;
+JOIN Genres ON BookGenres.genreID = Genres.genreID
+WHERE Genres.name LIKE ?
+
+-- 5. Get all customers of a similar name
+-- Dynamic inputs: (:name)
+SELECT * FROM Customers
+WHERE Customers.name LIKE :name
 
 -- 6. Get customer details by ID
 -- Dynamic inputs: (:customerID)

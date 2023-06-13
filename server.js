@@ -92,77 +92,21 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.static('public'));
 
-//function generateSQL(tableName) {
-//    let fks = IDs[tableName].foriegnKeys;
-//    let sql = `SELECT a.*`;
-//    
-//    // Check if there are any foreign keys
-//    if (fks && fks.length > 0) {
-//        // Loop through each foreign key
-//        
-//        let foreignTableNames = [];
-//        for (let i = 0; i < fks.length; i++) {
-//            // The foreign table's name is determined by looking up the 'key' in the IDs object
-//            for(let potentialTable in IDs) {
-//                if(IDs[potentialTable].keys.includes(fks[i].key)){
-//                    foreignTableNames[i] = potentialTable;
-//                    break;
-//                }
-//            }
-//        }
-//        
-//            // Now the alias will be bi where i is the index of the foreign key
-//        for (let i = 0; i < fks.length; i++)
-//            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
-//        sql += ` FROM ${tableName} a`;
-//        
-//            // Add the JOIN clause for this foreign key
-//        for (let i = 0; i < fks.length; i++)
-//            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
-//    // If there are no foreign keys, just add the FROM clause
-//    } else
-//        sql += ` FROM ${tableName} a`;
-//    
-//    return sql;
-//}function generateSQL(tableName) {
-//    let fks = IDs[tableName].foriegnKeys;
-//    let sql = `SELECT a.*`;
-//    
-//    // Check if there are any foreign keys
-//    if (fks && fks.length > 0) {
-//        // Loop through each foreign key
-//        
-//        let foreignTableNames = [];
-//        for (let i = 0; i < fks.length; i++) {
-//            // The foreign table's name is determined by looking up the 'key' in the IDs object
-//            for(let potentialTable in IDs) {
-//                if(IDs[potentialTable].keys.includes(fks[i].key)){
-//                    foreignTableNames[i] = potentialTable;
-//                    break;
-//                }
-//            }
-//        }
-//        
-//            // Now the alias will be bi where i is the index of the foreign key
-//        for (let i = 0; i < fks.length; i++)
-//            sql += `, b${i}.${fks[i].refColumn} AS ${fks[i].name}`;
-//        sql += ` FROM ${tableName} a`;
-//        
-//            // Add the JOIN clause for this foreign key
-//        for (let i = 0; i < fks.length; i++)
-//            sql += ` INNER JOIN ${foreignTableNames[i]} b${i} ON a.${fks[i].name} = b${i}.${fks[i].key}`;
-//    // If there are no foreign keys, just add the FROM clause
-//    } else
-//        sql += ` FROM ${tableName} a`;
-//    
-//    return sql;
-//}
-
 // Function to handle database modifying queries
 function modQuery(sql, params, res, url) {
     db.pool.query(sql, params, (error, results) => {
         if (error) res.status(500).json({error: error.sqlMessage});
         else res.redirect(url);
+    });
+}
+
+function renderPage(res, title, tables, tableResults, error) {
+    res.render('table', {
+        title: title,
+        data: tableResults,
+        tables: tables ? tables : "",
+        error: error ? error.sqlMessage : "",
+        pages
     });
 }
 
@@ -193,7 +137,6 @@ pages.forEach(({title, url}) => {
 		});
 	} else {
 		app.get(url, (req, res) => {
-//            db.pool.query(generateSQL(title), (error, tableResults) => {
             db.pool.query(`SELECT * FROM ${title}`, (error, tableResults) => {
 				if (error)
 					console.log(error.sqlMessage);
@@ -203,19 +146,13 @@ pages.forEach(({title, url}) => {
                     WHERE TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL`, [title], (error, results) => {
                     
                     // If the table doesn't have foreign keys, render the page without foreign key data
-                    if (results.length === 0) {
-                        res.render('table', {
-                            title: title,
-                            data: tableResults,
-                            error: error ? error.sqlMessage : "",
-                            pages
-                        });
-                        return;
-                    }
+                    if (results.length === 0)
+                        return renderPage(res, title, null, tableResults, error);
                     
                     let foreignKeyPromises = results.map(result => {
                         let foreignTableName = result.REFERENCED_TABLE_NAME;
                         let columnName = result.COLUMN_NAME;
+                        
                         // Query the foreign table
                         return new Promise((resolve, reject) => {
                             db.pool.query(`SELECT * FROM ${foreignTableName}`, function(error, foreignTableResults) {
@@ -241,13 +178,7 @@ pages.forEach(({title, url}) => {
                                     if (tableResults[i].date instanceof Date)
                                         tableResults[i].date = tableResults[i].date.toISOString();
   
-                            res.render('table', {
-                                title: title,
-                                data: tableResults,
-                                tables: tables,
-                                error: error ? error.sqlMessage : "",
-                                pages
-                            });
+                            renderPage(res, title, tables, tableResults, error);
                         })
                         .catch(error => console.log(error));
                 });
@@ -273,6 +204,48 @@ pages.forEach(({title, url}) => {
     app.post(url + '/delete/:id', (req, res) => {
         req.body.id = req.params.id;
         handleSQLStatement('DELETE FROM', req, res, url, title);
+    });
+});
+
+// SEARCH Books By Genre
+app.post('/books/search', (req, res) => {
+    let genreID = req.body.genreID;
+    let sql = '';
+    let params = [];
+
+    if (genreID) {
+        genreID = '%' + genreID + '%';  // Wrap the genre name with '%' for SQL's LIKE
+        sql = `SELECT * FROM Books
+            JOIN BookGenres ON Books.bookID = BookGenres.bookID
+            JOIN Genres ON BookGenres.genreID = Genres.genreID
+            WHERE Genres.name LIKE ?`;
+        params = [genreID];
+    } else
+        sql = `SELECT * FROM Books`;
+    
+    db.pool.query(sql, [genreID], (error, results) => {
+        if (error) res.status(500).json({error: error.sqlMessage});
+        else res.json(results);
+    });
+});
+
+// SEARCH Customers By Name
+app.post('/customers/search', (req, res) => {
+    let name = req.body.name;
+    let sql = '';
+    let params = [];
+
+    if (name) {
+        name = '%' + name + '%';  // Wrap the genre name with '%' for SQL's LIKE
+        sql = `SELECT * FROM Customers
+            WHERE Customers.name LIKE ?`;
+        params = [name];
+    } else
+        sql = `SELECT * FROM Customers`;
+    
+    db.pool.query(sql, [name], (error, results) => {
+        if (error) res.status(500).json({error: error.sqlMessage});
+        else res.json(results);
     });
 });
 

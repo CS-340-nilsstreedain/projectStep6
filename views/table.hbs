@@ -1,6 +1,20 @@
-<div id="util">
+<menu>
 	<h1>{{title}}</h1>
 	<p>Bookstore Back Office</p>
+    {{#isEqual title "Books"}}
+        <form id="booksSearch">
+            <input type="search" id="searchGenre" class="search" placeholder="Search by Genre">
+            <button type="submit">Search</button>
+        </form>
+        <hr>
+    {{/isEqual}}
+    {{#isEqual title "Customers"}}
+        <form id="custSearch">
+            <input type="search" id="searchName" class="search" placeholder="Search by Name">
+            <button type="submit">Search</button>
+        </form>
+        <hr>
+    {{/isEqual}}
 	<button id="create">Create New {{title}}</button>
 	<dialog id="createForm">
 		<form method="dialog">
@@ -86,8 +100,8 @@
 			</div>
 		</form>
 	</dialog>
-</div>
-<table>
+</menu>
+<table id="results">
 	<thead>
 		<tr>
 			<th><input type="checkbox" id="select-all"></th>
