@@ -69,95 +69,95 @@ menu {
 /*	width: calc(3 * var(--bPad));*/
     width: calc(90vw / var(--numNav) * 2 - var(--mPad));
     padding: 0;
-}
-
-menu h1 {
-	margin: 0;
-	color: var(--accent);
-}
-
-menu p {
-	margin: 0;
-	font-size: 1.17em;
-}
-
-menu .search, menu button {
-    width: 100%;
-    height: calc(var(--mPad) * 1.5);
-    margin: var(--sPad) 0 0;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    font-size: medium;
-    font-weight: bold;
-    font-family: typeface;
-}
-
-menu .search {
-    padding-left: var(--sPad);
-}
-
-menu button {
-	background-color: var(--mGray);
-	color: var(--dGray);
-}
-
-menu button:hover {
-	background-color: var(--lGray);
-	border-color: var(--mGray);
-}
-
-hr {
-    border: 1px solid var(--mGray);
-    margin: var(--sPad) 0 0;
-}
-
-menu dialog {
-	width: 50vw;
-	border: none;
-	border-radius: 10px;
-	
-	& form {
-		& legend {
-			font-size: large;
-			font-weight: bold;
-			color: var(--accent);
-		}
-		
-		& fieldset {
-			border: 2px solid var(--mGray);
-			border-radius: 5px;
-			
-			& input, select {
-				width: 100%;
-				padding: 5px;
-				border-radius: 3px;
-				margin-bottom: var(--sPad);
-				border: 1px solid var(--mGray);
-				background-color: var(--lGray);
-				box-sizing: border-box;
-				appearance: none;
-			}
-			
-			& input:last-child, select:last-child {
-				margin-bottom: 0px;
-			}
-		}
-		
-		#createError, #editError, #deleteError {
-			color: red;
-			padding: 1vw;
-			font-size: medium;
-		}
-		
-		.formButtons {
-			display: flex;
-			
-			& button {
-				flex: 1;
-				margin: 3px;
-			}
-		}
-	}
+    
+    & h1 {
+        margin: 0;
+        color: var(--accent);
+    }
+    
+    & p {
+        margin: 0;
+        font-size: 1.17em;
+    }
+    
+    & .search, & button {
+        width: 100%;
+        height: calc(var(--mPad) * 1.5);
+        margin: var(--sPad) 0 0;
+        border: 2px solid transparent;
+        border-radius: 5px;
+        font-size: medium;
+        font-weight: bold;
+        font-family: typeface;
+    }
+    
+    & .search {
+        padding-left: var(--sPad);
+    }
+    
+    & button {
+        background-color: var(--mGray);
+        color: var(--dGray);
+        
+        & :hover {
+            background-color: var(--lGray);
+            border-color: var(--mGray);
+        }
+    }
+    
+    & hr {
+        border: 1px solid var(--mGray);
+        margin: var(--sPad) 0 0;
+    }
+    
+    & dialog {
+        width: 50vw;
+        border: none;
+        border-radius: 10px;
+        
+        & form {
+            & legend {
+                font-size: large;
+                font-weight: bold;
+                color: var(--accent);
+            }
+            
+            & fieldset {
+                border: 2px solid var(--mGray);
+                border-radius: 5px;
+                
+                & input, select {
+                    width: 100%;
+                    padding: 5px;
+                    border-radius: 3px;
+                    margin-bottom: var(--sPad);
+                    border: 1px solid var(--mGray);
+                    background-color: var(--lGray);
+                    box-sizing: border-box;
+                    appearance: none;
+                }
+                
+                & input:last-child, select:last-child {
+                    margin-bottom: 0px;
+                }
+            }
+            
+            #createError, #editError, #deleteError {
+                color: red;
+                padding: 1vw;
+                font-size: medium;
+            }
+            
+            .formButtons {
+                display: flex;
+                
+                & button {
+                    flex: 1;
+                    margin: 3px;
+                }
+            }
+        }
+    }
 }
 
 main {
@@ -167,11 +167,11 @@ main {
 	border-radius: 10px;
 	box-shadow: 0 4px 8px 0 var(--mGray);
 	background-color: #fff;
-}
-
-main h2 {
-	padding-top: var(--mPad);
-	color: var(--accent);
+    
+    & h2 {
+        padding-top: var(--mPad);
+        color: var(--accent);
+    }
 }
 
 table {
